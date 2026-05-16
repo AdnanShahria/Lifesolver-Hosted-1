@@ -12,6 +12,9 @@
   <a href="https://life-solver.vercel.app">
     <img src="https://img.shields.io/badge/Live-life--solver.vercel.app-blue?style=for-the-badge&logo=vercel" alt="Live Demo" />
   </a>
+  <a href="https://life-solver.vercel.app/downloads/lifesolver-extension.zip">
+    <img src="https://img.shields.io/badge/Extension-Download_ZIP-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Download Extension" />
+  </a>
   <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License" />
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge" alt="PRs Welcome" />
 </p>
@@ -35,6 +38,7 @@ lifesolver/
 │   │   ├── frontend/         #    React SPA with shadcn/ui components
 │   │   ├── backend/          #    Microservices (auth-service, data-service)
 │   │   ├── api/              #    Vercel serverless API routes
+│   │   ├── public/downloads/ #    Extension ZIP for direct download
 │   │   ├── scripts/          #    Build & migration utilities
 │   │   └── package.json
 │   │
@@ -46,7 +50,10 @@ lifesolver/
 │       │   ├── hooks/        #    Custom React hooks (useAuth, useDetox, etc.)
 │       │   └── lib/          #    API client & utilities
 │       ├── public/           #    Extension icons & assets
+│       ├── scripts/          #    Build, ZIP, and deploy scripts
+│       ├── store-assets/     #    Chrome Web Store promotional images
 │       ├── manifest.json     #    Chrome Extension manifest (MV3)
+│       ├── PUBLISHING.md     #    Chrome Web Store publishing guide
 │       └── package.json
 │
 ├── .agent/                   # 🤖 AI agent skills & configuration
@@ -140,6 +147,9 @@ npm run dev:extension
 
 # Build everything
 npm run build
+
+# Build extension + deploy ZIP to web app's public folder
+npm run deploy:extension
 ```
 
 
@@ -170,10 +180,37 @@ docker-compose up -d
 
 ### Chrome Extension
 
-The extension is not published to the Chrome Web Store yet. Load it manually:
+#### 🌐 From the Website (Recommended for Users)
 
-1. `npm run build:extension` (from root)
-2. Chrome → `chrome://extensions` → **Developer mode** → **Load unpacked** → `apps/extension/dist`
+Users visiting [life-solver.vercel.app](https://life-solver.vercel.app) on Chrome will see an install banner that:
+1. Downloads the extension as a ZIP file
+2. Shows a step-by-step installation guide
+
+The guide walks users through:
+- Extracting the ZIP
+- Opening `chrome://extensions`
+- Enabling Developer Mode
+- Loading the unpacked extension
+- Pinning it to the toolbar
+
+#### 🔧 For Developers
+
+```bash
+# Build the extension
+npm run build:extension
+
+# Build + deploy ZIP to web app's public/downloads/
+npm run deploy:extension
+
+# Build ZIP for Chrome Web Store upload
+cd apps/extension && npm run build:store
+```
+
+Then load in Chrome: `chrome://extensions` → **Developer mode** → **Load unpacked** → `apps/extension/dist`
+
+#### 🏪 Chrome Web Store (Future)
+
+See [`apps/extension/PUBLISHING.md`](apps/extension/PUBLISHING.md) for the complete Chrome Web Store publishing guide with store listing copy, permission justifications, and asset requirements.
 
 ---
 
@@ -226,6 +263,11 @@ graph TB
 | `apps/extension/src/background/` | Service worker for alarms, sync, and background tasks |
 | `apps/extension/src/hooks/` | Extension-specific React hooks |
 | `apps/extension/manifest.json` | Chrome Extension Manifest V3 configuration |
+| `apps/extension/scripts/` | Build-store and deploy-extension scripts |
+| `apps/extension/PUBLISHING.md` | Chrome Web Store publishing guide |
+| `apps/web/public/downloads/` | Extension ZIP served as static download |
+| `apps/web/.../PrivacyPolicyPage.tsx` | Privacy policy page (required for store submission) |
+| `apps/web/.../ExtensionInstallBanner.tsx` | Smart install banner + step-by-step guide modal |
 
 ---
 
@@ -260,5 +302,5 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 <p align="center">
   <strong>LifeSolver</strong> — Solve your life, one goal at a time.<br/>
-  <sub>Built with ❤️ for the Friction Hackathon</sub>
+  <sub>Built with ❤️ | <a href="https://life-solver.vercel.app/privacy-policy">Privacy Policy</a></sub>
 </p>

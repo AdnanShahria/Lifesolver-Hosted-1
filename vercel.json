@@ -21,7 +21,11 @@
             "destination": "/api/data"
         },
         {
-            "source": "/((?!api/).*)",
+            "source": "/downloads/:path*",
+            "destination": "/downloads/:path*"
+        },
+        {
+            "source": "/((?!api/|downloads/).*)",
             "destination": "/index.html"
         }
     ],
