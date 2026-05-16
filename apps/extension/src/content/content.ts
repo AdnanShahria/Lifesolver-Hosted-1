@@ -10,6 +10,23 @@ import { checkForGates } from './modules/navObserver';
 import { initNavObserver } from './modules/navObserver';
 import { syncAuthFromMainSite } from './modules/syncAuth';
 
+// ─── Extension Detection Marker ─────────────────────────────────────────────
+// Injects a data attribute on the LifeSolver web app so it can detect
+// that the extension is installed (used by the install prompt banner).
+(function injectExtensionMarker() {
+  const host = window.location.hostname;
+  const isLifeSolverSite =
+    host === 'life-solver.vercel.app' ||
+    host === 'lifesolver.app' ||
+    host === 'www.lifesolver.app' ||
+    host === 'localhost' ||
+    host === '127.0.0.1';
+
+  if (isLifeSolverSite) {
+    document.documentElement.setAttribute('data-lifesolver-extension', 'installed');
+  }
+})();
+
 // ─── Data Loading ────────────────────────────────────────────────────────────
 
 async function loadData() {

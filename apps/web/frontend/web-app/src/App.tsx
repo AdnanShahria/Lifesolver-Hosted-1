@@ -28,6 +28,8 @@ import RegisterPage from "./pages/RegisterPage";
 import WelcomePage from "./pages/WelcomePage";
 import VerifyOtpPage from "./pages/VerifyOtpPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import { ExtensionInstallBanner } from "@/components/ui/ExtensionInstallBanner";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -52,6 +54,7 @@ const AppContent = () => {
           <Route path="/register" element={<AnimatedPage><RegisterPage /></AnimatedPage>} />
           <Route path="/verify-otp" element={<AnimatedPage><VerifyOtpPage /></AnimatedPage>} />
           <Route path="/forgot-password" element={<AnimatedPage><ForgotPasswordPage /></AnimatedPage>} />
+          <Route path="/privacy-policy" element={<AnimatedPage><PrivacyPolicyPage /></AnimatedPage>} />
 
           {/* Protected routes under DashboardLayout */}
           <Route element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
@@ -98,6 +101,7 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <TooltipProvider>
+            <ExtensionInstallBanner />
             <Toaster />
             <Sonner
               theme="system"
