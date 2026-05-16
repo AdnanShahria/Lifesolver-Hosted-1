@@ -27,11 +27,7 @@
     "crons": [
         {
             "path": "/api/health",
-<<<<<<< HEAD
             "schedule": "0 0 * * *"
-=======
-            "schedule": "0 */6 * * *"
->>>>>>> 5dc0c0b (many fixation)
         }
     ],
     "headers": [
