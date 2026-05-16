@@ -1,0 +1,27 @@
+{
+  "name": "lifesolver",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LifeSolver Monorepo — AI-powered personal operating system with web app and browser extension",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace=@lifesolver/web",
+    "dev:extension": "npm run dev --workspace=@lifesolver/extension",
+    "build:web": "npm run build --workspace=@lifesolver/web",
+    "build:extension": "npm run build --workspace=@lifesolver/extension",
+    "build": "npm run build --workspaces",
+    "lint": "npm run lint --workspaces",
+    "test": "npm run test --workspace=@lifesolver/web --if-present"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nisarr/LifeSolver.git"
+  },
+  "license": "MIT"
+}
