@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "build:store": "tsc -b && vite build && node scripts/build-store.mjs",
+    "build": "npx tsc -b && npx vite build",
+    "build:store": "npx tsc -b && npx vite build && node scripts/build-store.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
