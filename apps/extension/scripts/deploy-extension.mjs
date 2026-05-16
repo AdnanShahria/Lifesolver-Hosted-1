@@ -13,7 +13,7 @@ import { existsSync, mkdirSync, copyFileSync, statSync } from 'fs';
 import { join, resolve } from 'path';
 
 const EXTENSION_ROOT = resolve(import.meta.dirname, '..');
-const WEB_PUBLIC = resolve(EXTENSION_ROOT, '..', 'web', 'public');
+const WEB_PUBLIC = resolve(EXTENSION_ROOT, '..', 'web', 'frontend', 'web-app', 'public');
 const DIST = join(EXTENSION_ROOT, 'dist');
 const STORE_BUILDS = join(EXTENSION_ROOT, 'store-builds');
 
