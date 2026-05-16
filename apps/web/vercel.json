@@ -36,6 +36,19 @@
     ],
     "headers": [
         {
+            "source": "/downloads/(.*).zip",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/zip"
+                },
+                {
+                    "key": "Content-Disposition",
+                    "value": "attachment"
+                }
+            ]
+        },
+        {
             "source": "/(.*)",
             "headers": [
                 {
