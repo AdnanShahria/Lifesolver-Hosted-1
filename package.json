@@ -13,6 +13,7 @@
     "build:extension": "npm run build --workspace=@lifesolver/extension",
     "deploy:extension": "node apps/extension/scripts/deploy-extension.mjs",
     "build": "npm run build --workspaces",
+    "postbuild": "node scripts/copy-dist.mjs",
     "lint": "npm run lint --workspaces",
     "test": "npm run test --workspace=@lifesolver/web --if-present"
   },

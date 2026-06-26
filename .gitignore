@@ -59,3 +59,6 @@ setup_git.ps1
 *.rar
 *.zip
 *.7z
+
+# Custom Scripts
+mirror.ps1
