@@ -66,3 +66,7 @@ setup_git.ps1
 
 # Custom Scripts
 mirror.ps1
+
+# Lock files generated on Windows — break Cloudflare Linux builds
+# (missing @rollup/rollup-linux-x64-gnu optional dep)
+website/package-lock.json
