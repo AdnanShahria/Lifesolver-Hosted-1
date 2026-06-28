@@ -9,7 +9,7 @@
     "dev:full": "npm --prefix website run dev:full",
     "dev:frontend": "npm --prefix website run dev:frontend",
     "dev:backend": "npm --prefix website run dev:backend",
-    "build": "npm --prefix website run build",
-    "build:full": "npm --prefix website run build"
+    "build": "npm --prefix website run build && node scripts/copy-dist.mjs",
+    "build:full": "npm --prefix website run build && node scripts/copy-dist.mjs"
   }
 }

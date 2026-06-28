@@ -7,6 +7,7 @@ node_modules/
 
 # Build outputs
 dist/
+functions/
 dist-ssr/
 dev-dist/
 build/
