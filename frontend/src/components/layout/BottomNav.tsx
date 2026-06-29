@@ -100,25 +100,33 @@ export function BottomNav() {
       {/* Floating Bottom Navigation - hidden when AI chat is open */}
       <nav className="bottom-nav" style={isChatOpen ? { display: 'none' } : undefined}>
         <div className="floating-nav-container">
-          {/* Primary Nav Items Container */}
-          <div className="flex items-center gap-1 bg-secondary/80 dark:bg-secondary/50 rounded-full px-2 py-1 border border-border/50 dark:border-white/5 backdrop-blur-sm shadow-sm">
+
+          {/* Primary Nav Items — inner group pill */}
+          <div className="nav-group-pill">
             {mainNavItems.map((item) => {
               const isActive = location.pathname === item.path;
               return (
                 <Link key={item.path} to={item.path} className="relative">
                   <motion.div
                     className={`floating-nav-item ${isActive ? "active" : ""}`}
-                    whileTap={{ scale: 0.92 }}
+                    whileTap={{ scale: 0.88 }}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   >
                     {isActive && (
                       <motion.div
-                        layoutId="nav-item-bg"
-                        className="absolute inset-0 bg-primary/10 rounded-full -z-10 border border-yellow-500/50 shadow-[0_0_10px_rgba(234,179,8,0.2)] dark:border-yellow-400/50 dark:shadow-[0_0_10px_rgba(250,204,21,0.2)]"
+                        layoutId="nav-active-bg"
+                        className="absolute inset-0 rounded-full -z-10"
+                        style={{
+                          background: "linear-gradient(135deg, hsl(var(--primary) / 0.12) 0%, hsl(var(--primary) / 0.07) 100%)",
+                          border: "1px solid hsl(var(--primary) / 0.40)",
+                          boxShadow: "0 0 14px hsl(var(--primary) / 0.18), inset 0 1px 0 rgba(255,255,255,0.15)"
+                        }}
                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
                       />
                     )}
-                    <item.icon className="w-4 h-4" />
+                    <item.icon
+                      className={`w-[18px] h-[18px] ${isActive ? "text-primary" : ""}`}
+                    />
                     <AnimatePresence mode="wait">
                       {isActive && (
                         <motion.span
@@ -127,7 +135,7 @@ export function BottomNav() {
                           animate={{ width: "auto", opacity: 1 }}
                           exit={{ width: 0, opacity: 0 }}
                           transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                          className="text-[10px] font-semibold overflow-hidden whitespace-nowrap"
+                          className="text-[11px] font-semibold overflow-hidden whitespace-nowrap text-primary"
                         >
                           {item.label}
                         </motion.span>
@@ -137,48 +145,46 @@ export function BottomNav() {
                 </Link>
               );
             })}
+
             {/* More Button */}
             <button onClick={() => setShowMore(!showMore)} className="relative">
               <motion.div
                 className={`floating-nav-item ${showMore || isMoreActive ? "active" : ""}`}
-                whileTap={{ scale: 0.92 }}
+                whileTap={{ scale: 0.88 }}
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
               >
                 {(showMore || isMoreActive) && (
                   <motion.div
-                    layoutId="nav-item-bg"
-                    className="absolute inset-0 bg-primary/10 rounded-full -z-10 border border-yellow-500/50 shadow-[0_0_10px_rgba(234,179,8,0.2)] dark:border-yellow-400/50 dark:shadow-[0_0_10px_rgba(250,204,21,0.2)]"
+                    layoutId="nav-active-bg"
+                    className="absolute inset-0 rounded-full -z-10"
+                    style={{
+                      background: "linear-gradient(135deg, hsl(var(--primary) / 0.12) 0%, hsl(var(--primary) / 0.07) 100%)",
+                      border: "1px solid hsl(var(--primary) / 0.40)",
+                      boxShadow: "0 0 14px hsl(var(--primary) / 0.18), inset 0 1px 0 rgba(255,255,255,0.15)"
+                    }}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
                 )}
-                <MoreHorizontal className="w-4 h-4" />
+                <MoreHorizontal
+                  className={`w-[18px] h-[18px] ${showMore || isMoreActive ? "text-primary" : ""}`}
+                />
               </motion.div>
             </button>
           </div>
 
-          {/* Separator */}
-          <div className="w-[1px] h-8 bg-border/20 mx-1" />
+          {/* Gradient Divider */}
+          <div className="nav-divider" />
 
-          {/* Utility Buttons Logic */}
-          <div className="flex items-center gap-1 bg-secondary/80 dark:bg-secondary/50 rounded-full px-2 py-1 border border-border/50 dark:border-white/5 backdrop-blur-sm shadow-sm">
-            {/* AI Button */}
-            <button onClick={() => setChatOpen(!isChatOpen)} className="relative">
-              <motion.div
-                className={`floating-nav-item ${isChatOpen ? "active" : ""}`}
-                whileTap={{ scale: 0.92 }}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              >
-                {isChatOpen && (
-                  <motion.div
-                    layoutId="nav-item-bg"
-                    className="absolute inset-0 bg-primary/10 rounded-full -z-10 border border-violet-500/50 shadow-[0_0_10px_rgba(139,92,246,0.2)]"
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  />
-                )}
-                <Sparkles className="w-4 h-4" />
-              </motion.div>
-            </button>
-          </div>
+          {/* AI Button */}
+          <motion.button
+            onClick={() => setChatOpen(!isChatOpen)}
+            className={`floating-nav-ai-btn ${isChatOpen ? "active" : ""}`}
+            whileTap={{ scale: 0.88 }}
+            transition={{ type: "spring", stiffness: 500, damping: 28 }}
+          >
+            <Sparkles className="w-[18px] h-[18px]" />
+          </motion.button>
+
         </div>
       </nav>
     </>

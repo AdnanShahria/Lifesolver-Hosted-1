@@ -583,32 +583,110 @@
 
   /* Mobile floating bottom nav */
   .bottom-nav {
-    @apply fixed bottom-4 left-0 right-0 z-50 md:hidden flex justify-center pointer-events-none;
-    padding: 0 16px;
+    @apply fixed bottom-5 left-0 right-0 z-50 md:hidden flex justify-center pointer-events-none;
+    padding: 0 20px;
   }
 
   .floating-nav-container {
-    @apply flex items-center gap-1 pointer-events-auto mx-auto;
-    @apply bg-white/80 border border-slate-200/50 shadow-lg shadow-slate-200/50;
-    @apply dark:bg-slate-900/65 dark:border-white/10 dark:shadow-black/50;
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    @apply flex items-center pointer-events-auto mx-auto;
+    gap: 6px;
+    /* Light mode: frosted glass with subtle blue tint */
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.10),
+      0 2px 8px rgba(0, 0, 0, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(28px) saturate(200%) brightness(1.04);
+    -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.04);
     border-radius: 9999px;
-    padding: 4px;
+    padding: 5px;
     max-width: fit-content;
   }
 
+  .dark .floating-nav-container {
+    background: rgba(15, 18, 28, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 8px 40px rgba(0, 0, 0, 0.55),
+      0 2px 10px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+  }
+
   .floating-nav-item {
-    @apply relative flex items-center justify-center gap-2 rounded-full cursor-pointer select-none transition-colors duration-300;
-    padding: 8px 12px;
+    @apply relative flex items-center justify-center gap-1.5 rounded-full cursor-pointer select-none;
+    padding: 9px 13px;
     color: hsl(var(--muted-foreground));
-    /* Minimum touch target */
-    min-height: 38px;
+    min-height: 40px;
+    transition: color 200ms ease, background 200ms ease;
+  }
+
+  .floating-nav-item:not(.active):hover {
+    color: hsl(var(--foreground));
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .floating-nav-item:not(.active):hover {
+    background: rgba(255, 255, 255, 0.07);
   }
 
   .floating-nav-item.active {
-    color: hsl(var(--foreground));
+    color: hsl(var(--primary));
     font-weight: 600;
+  }
+
+  /* Nav group pill (wraps a subset of nav items) */
+  .nav-group-pill {
+    @apply flex items-center gap-0.5;
+    background: rgba(0, 0, 0, 0.045);
+    border-radius: 9999px;
+    padding: 2px;
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .dark .nav-group-pill {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255,255,255,0.06);
+  }
+
+  /* Nav divider */
+  .nav-divider {
+    width: 1px;
+    height: 22px;
+    background: linear-gradient(to bottom, transparent, rgba(148,163,184,0.35) 30%, rgba(148,163,184,0.35) 70%, transparent);
+    flex-shrink: 0;
+  }
+
+  .dark .nav-divider {
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0.12) 70%, transparent);
+  }
+
+  /* AI button special styling */
+  .floating-nav-ai-btn {
+    @apply relative flex items-center justify-center rounded-full cursor-pointer select-none;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, rgba(139,92,246,0.18) 0%, rgba(99,102,241,0.18) 100%);
+    border: 1px solid rgba(139,92,246,0.30);
+    color: rgb(139,92,246);
+    transition: all 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 0 0 0 rgba(139,92,246,0);
+  }
+
+  .floating-nav-ai-btn:hover {
+    background: linear-gradient(135deg, rgba(139,92,246,0.28) 0%, rgba(99,102,241,0.28) 100%);
+    border-color: rgba(139,92,246,0.55);
+    box-shadow: 0 0 16px rgba(139,92,246,0.25);
+    transform: scale(1.07);
+  }
+
+  .floating-nav-ai-btn.active {
+    background: linear-gradient(135deg, rgba(139,92,246,0.90) 0%, rgba(99,102,241,0.90) 100%);
+    border-color: rgba(139,92,246,0.8);
+    color: white;
+    box-shadow: 0 0 20px rgba(139,92,246,0.45), 0 4px 12px rgba(139,92,246,0.3);
   }
 
 
