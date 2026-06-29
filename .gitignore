@@ -7,7 +7,6 @@ node_modules/
 
 # Build outputs
 dist/
-functions/
 dist-ssr/
 dev-dist/
 build/
@@ -70,4 +69,4 @@ mirror.ps1
 
 # Lock files generated on Windows — break Cloudflare Linux builds
 # (missing @rollup/rollup-linux-x64-gnu optional dep)
-website/package-lock.json
+
