@@ -1,4 +1,46 @@
-// import nodemailer from 'nodemailer'; // Incompatible with Cloudflare Workers Edge runtime
+import { Buffer } from 'node:buffer';
+
+// In-memory token cache fallback
+let inMemoryToken: string | null = null;
+let inMemoryExpiry = 0;
+
+async function getSendPulseToken(userId: string, secret: string): Promise<string> {
+  const now = Math.floor(Date.now() / 1000);
+  
+  // 1. Check in-memory cache first
+  if (inMemoryToken && inMemoryExpiry > now + 60) {
+    return inMemoryToken;
+  }
+  
+  // 2. Obtain a new token
+  const tokenUrl = 'https://api.sendpulse.com/oauth/access_token';
+  const response = await fetch(tokenUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      grant_type: 'client_credentials',
+      client_id: userId,
+      client_secret: secret,
+    }),
+  });
+  
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Failed to authenticate with SendPulse: HTTP ${response.status} - ${errText}`);
+  }
+  
+  const data = (await response.json()) as any;
+  const token = data.access_token;
+  const expiresIn = data.expires_in || 3600;
+  const expiry = now + expiresIn;
+  
+  inMemoryToken = token;
+  inMemoryExpiry = expiry;
+  
+  return token;
+}
 
 export async function sendOtpEmail(
   to: string,
@@ -6,31 +48,24 @@ export async function sendOtpEmail(
   purpose: 'verification' | 'reset_password',
   env: any
 ): Promise<void> {
-  const host = env.VITE_SMTP_HOST || 'smtp.gmail.com';
-  const port = parseInt(env.VITE_SMTP_PORT || '465', 10);
-  const user = env.VITE_SMTP_USER;
-  const pass = env.VITE_SMTP_PASS;
-  // const secure = env.VITE_SMTP_SECURE === 'true' || port === 465;
+  const userId = env.SENDPULSE_API_USER_ID;
+  const secret = env.SENDPULSE_API_SECRET;
+  const storageDir = env.SENDPULSE_TOKEN_STORAGE || '/tmp/';
+  const fromEmail = env.VITE_SMTP_USER || 'adnanshahria2006@gmail.com';
 
-  if (!user || !pass) {
-    console.warn("SMTP credentials not configured in environment. Mocking email sending.");
+  if (!userId || !secret) {
+    console.warn("SendPulse credentials not configured in environment. Mocking email sending.");
     console.log(`[MOCK EMAIL] To: ${to} | OTP: ${otp} | Purpose: ${purpose}`);
     return;
   }
 
-  // Cloudflare Workers (where Pages Functions run) do not support Node.js raw TCP sockets 
-  // via the standard 'net' and 'tls' modules out-of-the-box in a way that nodemailer expects.
-  // To send emails from Cloudflare Workers, you should use an HTTP-based API provider 
-  // like Resend, SendGrid, Mailgun, or MailChannels.
-  
-  console.warn("Notice: nodemailer is disabled. Cloudflare Workers require HTTP-based email APIs.");
-  console.log(`[MOCK EMAIL] To: ${to} | OTP: ${otp} | Purpose: ${purpose}`);
+  console.log(`Sending SendPulse email to ${to} from ${fromEmail}...`);
 
   const subject = purpose === 'verification' 
     ? 'LifeSolver - Verify Your Email'
     : 'LifeSolver - Reset Your Password';
 
-  const body = purpose === 'verification'
+  const htmlContent = purpose === 'verification'
     ? `
       <div style="font-family: Arial, sans-serif; padding: 25px; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff; color: #1e293b;">
         <h2 style="color: #4f46e5; text-align: center; margin-bottom: 20px; font-weight: 800;">Welcome to LifeSolver!</h2>
@@ -56,10 +91,48 @@ export async function sendOtpEmail(
       </div>
     `;
 
-  // await transporter.sendMail({
-  //   from: `"LifeSolver" <${user}>`,
-  //   to,
-  //   subject,
-  //   html: body,
-  // });
+  const textContent = purpose === 'verification'
+    ? `Welcome to LifeSolver! Thank you for signing up. Please verify your email address using this code: ${otp}`
+    : `We received a request to reset your password. Please use this code to proceed: ${otp}`;
+
+  // Get OAuth token
+  const token = await getSendPulseToken(userId, secret);
+
+  // Send request to SendPulse SMTP API
+  const sendEmailUrl = 'https://api.sendpulse.com/smtp/emails';
+  const response = await fetch(sendEmailUrl, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: {
+        subject,
+        html: Buffer.from(htmlContent).toString('base64'),
+        text: textContent,
+        from: {
+          name: 'LifeSolver',
+          email: fromEmail,
+        },
+        to: [
+          {
+            name: to.split('@')[0],
+            email: to,
+          },
+        ],
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`SendPulse SMTP API failed: HTTP ${response.status} - ${errText}`);
+  }
+
+  const result = (await response.json()) as any;
+  if (!result.result) {
+    throw new Error(`SendPulse API error: ${JSON.stringify(result)}`);
+  }
 }
+
