@@ -278,7 +278,7 @@ export default function InventoryPage() {
                                         <span className="hidden sm:inline">Item</span>
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent className="w-[95vw] max-w-md max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-xl">
+                                <DialogContent className="w-[95vw] max-w-md max-h-[90vh] overflow-y-auto rounded-2xl">
                                     <DialogHeader>
                                         <DialogTitle className="flex justify-between items-center">
                                             Add New Item

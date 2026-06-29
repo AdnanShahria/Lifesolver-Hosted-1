@@ -386,7 +386,7 @@ Respond in this EXACT JSON format:
       <motion.div variants={stagger} initial="hidden" animate="show" className="grid grid-cols-2 lg:grid-cols-4 gap-1.5 sm:gap-3 mb-3 sm:mb-6">
         {statCards.map((stat) => (
           <motion.div key={stat.label} variants={fadeUp}
-            className={`group relative overflow-hidden rounded-lg sm:rounded-2xl p-2 sm:p-4 bg-gradient-to-br ${stat.gradient} border-2 ${stat.borderColor} hover:shadow-xl transition-all duration-300 cursor-default ${stat.className || ""}`}
+            className={`group relative overflow-hidden rounded-2xl p-2 sm:p-4 bg-gradient-to-br ${stat.gradient} border-2 ${stat.borderColor} hover:shadow-xl transition-all duration-300 cursor-default ${stat.className || ""}`}
           >
             {/* Glow orb */}
             <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full opacity-25 blur-2xl transition-opacity duration-500 group-hover:opacity-50"

@@ -47,7 +47,7 @@ export function TasksAndHabitsCard({
     <>
       {/* ── Recent Tasks ── */}
       <motion.div variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}>
-        <div className="rounded-xl sm:rounded-2xl border-2 border-blue-200 dark:border-blue-500/20 bg-gradient-to-br from-blue-50/80 via-card/80 to-sky-50/80 dark:from-blue-950/80 dark:via-card/80 dark:to-sky-950/80 backdrop-blur-sm p-4 sm:p-5 h-full relative overflow-hidden">
+        <div className="rounded-2xl border-2 border-blue-200 dark:border-blue-500/20 bg-gradient-to-br from-blue-50/80 via-card/80 to-sky-50/80 dark:from-blue-950/80 dark:via-card/80 dark:to-sky-950/80 backdrop-blur-sm p-4 sm:p-5 h-full relative overflow-hidden">
           {/* Glow */}
           <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-blue-500 opacity-[0.06] blur-3xl" />
 
@@ -132,7 +132,7 @@ export function TasksAndHabitsCard({
 
       {/* ── Habits ── */}
       <motion.div variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}>
-        <div className="rounded-xl sm:rounded-2xl border-2 border-orange-200 dark:border-orange-500/20 bg-gradient-to-br from-orange-50/80 via-card/80 to-amber-50/80 dark:from-orange-950/80 dark:via-card/80 dark:to-amber-950/80 backdrop-blur-sm p-4 sm:p-5 h-full relative overflow-hidden">
+        <div className="rounded-2xl border-2 border-orange-200 dark:border-orange-500/20 bg-gradient-to-br from-orange-50/80 via-card/80 to-amber-50/80 dark:from-orange-950/80 dark:via-card/80 dark:to-amber-950/80 backdrop-blur-sm p-4 sm:p-5 h-full relative overflow-hidden">
           {/* Glow */}
           <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-orange-500 opacity-[0.06] blur-3xl" />
 

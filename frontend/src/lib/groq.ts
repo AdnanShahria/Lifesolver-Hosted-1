@@ -1,4 +1,5 @@
 import { apiFetch } from "@/lib/api";
+import { sanitizeJsonString } from "@/ai/core/groq-client";
 // Intent parsing response from AI
 export interface AIIntent {
     action: string;
@@ -134,8 +135,8 @@ export async function processUserMessage(
 
         const content = data.content || "{}";
 
-        // Parse the JSON response
-        const parsed = JSON.parse(content) as AIIntent;
+        // Parse the JSON response with sanitization
+        const parsed = JSON.parse(sanitizeJsonString(content)) as AIIntent;
         return parsed;
     } catch (error) {
         console.error("AI Processing error:", error);

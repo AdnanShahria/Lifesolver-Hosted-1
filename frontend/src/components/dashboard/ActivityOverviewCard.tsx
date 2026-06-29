@@ -31,7 +31,7 @@ export function ActivityOverviewCard({
   }, []);
 
   return (
-    <div className="rounded-xl sm:rounded-2xl border-2 border-primary/10 bg-card/80 bg-gradient-to-br from-primary/15 via-card/80 to-transparent backdrop-blur-sm p-4 sm:p-5 relative overflow-hidden">
+    <div className="rounded-2xl border-2 border-primary/10 bg-card/80 bg-gradient-to-br from-primary/15 via-card/80 to-transparent backdrop-blur-sm p-4 sm:p-5 relative overflow-hidden">
       {/* Glow orb */}
       <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-primary/5 blur-3xl" />
 

@@ -38,7 +38,7 @@ export function StudyAndTransactionsCard({
   return (
     <div className="space-y-4">
       {/* Study Progress */}
-      <div className="rounded-xl sm:rounded-2xl border-2 border-violet-200 dark:border-violet-500/20 bg-gradient-to-br from-violet-50/80 via-card/80 to-purple-50/80 dark:from-violet-950/80 dark:via-card/80 dark:to-purple-950/80 backdrop-blur-sm p-4 sm:p-5 relative overflow-hidden">
+      <div className="rounded-2xl border-2 border-violet-200 dark:border-violet-500/20 bg-gradient-to-br from-violet-50/80 via-card/80 to-purple-50/80 dark:from-violet-950/80 dark:via-card/80 dark:to-purple-950/80 backdrop-blur-sm p-4 sm:p-5 relative overflow-hidden">
         <div className="absolute -bottom-8 -right-8 w-28 h-28 rounded-full bg-violet-500 opacity-[0.05] blur-3xl" />
 
         <div className="relative z-10">
@@ -103,7 +103,7 @@ export function StudyAndTransactionsCard({
       </div>
 
       {/* Recent Transactions */}
-      <div className="rounded-xl sm:rounded-2xl border-2 border-cyan-200 dark:border-cyan-500/20 bg-gradient-to-br from-cyan-50/80 via-card/80 to-teal-50/80 dark:from-cyan-950/80 dark:via-card/80 dark:to-teal-950/80 backdrop-blur-sm p-4 sm:p-5 relative overflow-hidden">
+      <div className="rounded-2xl border-2 border-cyan-200 dark:border-cyan-500/20 bg-gradient-to-br from-cyan-50/80 via-card/80 to-teal-50/80 dark:from-cyan-950/80 dark:via-card/80 dark:to-teal-950/80 backdrop-blur-sm p-4 sm:p-5 relative overflow-hidden">
         <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-cyan-500 opacity-[0.05] blur-3xl" />
 
         <div className="relative z-10">

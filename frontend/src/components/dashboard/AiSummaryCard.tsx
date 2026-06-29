@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Brain, Loader2, Sparkles, AlertCircle, Lightbulb, ChevronDown } from "lucide-react";
-import { callGroqAPI } from "@/ai/core/groq-client";
+import { callGroqAPI, sanitizeJsonString } from "@/ai/core/groq-client";
 
 // Props derived from the dashboard context needed for summary generation
 interface AiSummaryCardProps {
@@ -109,7 +109,7 @@ Respond in this EXACT JSON format:
         { role: "user", content: "Generate my daily AI briefing summary." }
       ], { temperature: 0.5, maxTokens: 512 });
 
-      const parsed = JSON.parse(response);
+      const parsed = JSON.parse(sanitizeJsonString(response));
       const summaryData = {
         summary: parsed.summary || "No summary available.",
         alerts: parsed.alerts || [],
@@ -126,7 +126,7 @@ Respond in this EXACT JSON format:
   };
 
   return (
-    <div className="rounded-xl sm:rounded-2xl border-2 border-sky-200 dark:border-sky-500/20 bg-gradient-to-br from-sky-50/80 via-card/80 to-indigo-50/80 dark:from-sky-950/80 dark:via-card/80 dark:to-indigo-950/80 backdrop-blur-sm p-4 sm:p-5 relative overflow-hidden h-full">
+    <div className="rounded-2xl border-2 border-sky-200 dark:border-sky-500/20 bg-gradient-to-br from-sky-50/80 via-card/80 to-indigo-50/80 dark:from-sky-950/80 dark:via-card/80 dark:to-indigo-950/80 backdrop-blur-sm p-4 sm:p-5 relative overflow-hidden h-full">
       {/* Background accents */}
       <div className="absolute -top-20 -right-20 w-48 h-48 rounded-full blur-[80px] opacity-20"
         style={{ background: "linear-gradient(135deg, #38bdf8, #6366f1)" }} />

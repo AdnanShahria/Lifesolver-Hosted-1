@@ -1,4 +1,4 @@
-import { callGroqAPI } from "../core/groq-client";
+import { callGroqAPI, sanitizeJsonString } from "../core/groq-client";
 
 export async function smartFillForm<T>(
     unstructuredText: string,
@@ -26,14 +26,8 @@ export async function smartFillForm<T>(
             { role: "user", content: userMessage }
         ]);
 
-        // Attempt to parse the JSON
-        // The API might return text around the JSON, so we try to find the JSON block
-        const jsonMatch = result.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-            return JSON.parse(jsonMatch[0]) as T;
-        } else {
-            return JSON.parse(result) as T;
-        }
+        // Attempt to parse the JSON with sanitization
+        return JSON.parse(sanitizeJsonString(result)) as T;
     } catch (error) {
         console.error("Smart Fill Error:", error);
         throw new Error("Failed to parse input text.");

@@ -28,7 +28,11 @@ export async function callGroqAPI(
     const response = await fetch(BASE_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: enhancedMessages }), // using our backend endpoint format
+        body: JSON.stringify({
+            messages: enhancedMessages,
+            temperature: options.temperature,
+            max_tokens: options.maxTokens,
+        }),
     });
 
     if (!response.ok) {
@@ -87,19 +91,85 @@ function splitConcatenatedJSON(raw: string): string[] {
     return objects;
 }
 
+/**
+ * Safely sanitizes a raw string containing JSON by:
+ * 1. Extracting only the JSON portion (from the first '{' or '[' to the last '}' or ']')
+ * 2. Escaping literal newlines, tabs, and carriage returns that reside inside JSON string values.
+ */
+export function sanitizeJsonString(raw: string): string {
+    const trimmed = raw.trim();
+    
+    // Find the bounds of the outer JSON object or array
+    const firstBrace = trimmed.indexOf('{');
+    const lastBrace = trimmed.lastIndexOf('}');
+    const firstBracket = trimmed.indexOf('[');
+    const lastBracket = trimmed.lastIndexOf(']');
+    
+    let start = -1;
+    let end = -1;
+    
+    if (firstBrace !== -1 && (firstBracket === -1 || firstBrace < firstBracket)) {
+        start = firstBrace;
+        end = lastBrace;
+    } else if (firstBracket !== -1) {
+        start = firstBracket;
+        end = lastBracket;
+    }
+    
+    if (start === -1 || end === -1 || end < start) {
+        return trimmed;
+    }
+    
+    const jsonToParse = trimmed.substring(start, end + 1);
+    
+    let result = "";
+    let inString = false;
+    let escape = false;
+    
+    for (let i = 0; i < jsonToParse.length; i++) {
+        const char = jsonToParse[i];
+        
+        if (escape) {
+            result += char;
+            escape = false;
+            continue;
+        }
+        
+        if (char === '\\') {
+            result += char;
+            escape = true;
+            continue;
+        }
+        
+        if (char === '"') {
+            inString = !inString;
+            result += char;
+            continue;
+        }
+        
+        if (inString) {
+            if (char === '\n') {
+                result += '\\n';
+            } else if (char === '\r') {
+                result += '\\r';
+            } else if (char === '\t') {
+                result += '\\t';
+            } else {
+                result += char;
+            }
+        } else {
+            result += char;
+        }
+    }
+    
+    return result;
+}
+
 // Parse AI response — supports single, batch, and concatenated JSON formats
 export function parseAIResponse(content: string): AIIntent[] {
-    let jsonToParse = content.trim();
+    const jsonToParse = sanitizeJsonString(content);
 
     try {
-        // More robust extraction: find the first '{' and the last '}'
-        const firstBrace = jsonToParse.indexOf('{');
-        const lastBrace = jsonToParse.lastIndexOf('}');
-
-        if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-            jsonToParse = jsonToParse.substring(firstBrace, lastBrace + 1);
-        }
-
         // First, try standard single-object parse
         try {
             const parsed = JSON.parse(jsonToParse);

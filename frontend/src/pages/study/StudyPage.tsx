@@ -549,7 +549,7 @@ export default function StudyPage() {
                                                                     initial={{ opacity: 0, x: -8 }}
                                                                     animate={{ opacity: 1, x: 0 }}
                                                                     transition={{ delay: ci * 0.03 }}
-                                                                    className="rounded-xl border bg-card/50 hover:bg-card/80 transition-colors overflow-hidden"
+                                                                    className="rounded-2xl border bg-card/50 hover:bg-card/80 transition-colors overflow-hidden"
                                                                 >
                                                                     {/* Chapter Row */}
                                                                     <div
@@ -666,7 +666,7 @@ export default function StudyPage() {
 
             {/* ── Add Subject Dialog ─────────────────────────────────── */}
             <Dialog open={addSubjectOpen} onOpenChange={setAddSubjectOpen}>
-                <DialogContent className="w-[95vw] max-w-md rounded-2xl sm:rounded-xl">
+                <DialogContent className="w-[95vw] max-w-md rounded-2xl">
                     <DialogHeader>
                         <DialogTitle>Add New Subject</DialogTitle>
                         <DialogDescription>Create a new subject to organize your study materials.</DialogDescription>
@@ -688,7 +688,7 @@ export default function StudyPage() {
 
             {/* ── Add Chapter Dialog ──────────────────────────────────── */}
             <Dialog open={addChapterOpen} onOpenChange={setAddChapterOpen}>
-                <DialogContent className="w-[95vw] max-w-md rounded-2xl sm:rounded-xl">
+                <DialogContent className="w-[95vw] max-w-md rounded-2xl">
                     <DialogHeader>
                         <DialogTitle>Add Chapter</DialogTitle>
                         <DialogDescription>
@@ -712,7 +712,7 @@ export default function StudyPage() {
 
             {/* ── Add Part Dialog ─────────────────────────────────────── */}
             <Dialog open={addPartOpen} onOpenChange={setAddPartOpen}>
-                <DialogContent className="w-[95vw] max-w-md rounded-2xl sm:rounded-xl">
+                <DialogContent className="w-[95vw] max-w-md rounded-2xl">
                     <DialogHeader>
                         <DialogTitle>Add Part</DialogTitle>
                         <DialogDescription>
@@ -772,7 +772,7 @@ export default function StudyPage() {
 
             {/* ── Edit Subject Dialog ─────────────────────────────────── */}
             <Dialog open={editSubjectOpen} onOpenChange={setEditSubjectOpen}>
-                <DialogContent className="w-[95vw] max-w-md rounded-2xl sm:rounded-xl">
+                <DialogContent className="w-[95vw] max-w-md rounded-2xl">
                     <DialogHeader>
                         <DialogTitle>Edit Subject</DialogTitle>
                         <DialogDescription>Rename this subject.</DialogDescription>
@@ -793,7 +793,7 @@ export default function StudyPage() {
 
             {/* ── Edit Chapter Dialog ─────────────────────────────────── */}
             <Dialog open={editChapterOpen} onOpenChange={setEditChapterOpen}>
-                <DialogContent className="w-[95vw] max-w-md rounded-2xl sm:rounded-xl">
+                <DialogContent className="w-[95vw] max-w-md rounded-2xl">
                     <DialogHeader>
                         <DialogTitle>Edit Chapter</DialogTitle>
                         <DialogDescription>Rename this chapter.</DialogDescription>
@@ -814,7 +814,7 @@ export default function StudyPage() {
 
             {/* ── Edit Part Dialog ────────────────────────────────────── */}
             <Dialog open={editPartOpen} onOpenChange={setEditPartOpen}>
-                <DialogContent className="w-[95vw] max-w-md rounded-2xl sm:rounded-xl">
+                <DialogContent className="w-[95vw] max-w-md rounded-2xl">
                     <DialogHeader>
                         <DialogTitle>Edit Part</DialogTitle>
                         <DialogDescription>Update part details.</DialogDescription>
@@ -869,7 +869,7 @@ export default function StudyPage() {
 
             {/* ── Manage Presets Dialog ───────────────────────────────── */}
             <Dialog open={managePresetsOpen} onOpenChange={setManagePresetsOpen}>
-                <DialogContent className="w-[95vw] max-w-lg rounded-2xl sm:rounded-xl h-[80vh] flex flex-col">
+                <DialogContent className="w-[95vw] max-w-lg rounded-2xl h-[80vh] flex flex-col">
                     <DialogHeader>
                         <DialogTitle>Manage Chapter Templates</DialogTitle>
                         <DialogDescription>Create templates (like "Read Chapter", "Take Notes") to save time when setting up your study plan.</DialogDescription>

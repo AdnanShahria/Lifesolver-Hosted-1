@@ -397,7 +397,7 @@ function NoteEditor({ value, onChange, textareaRef, placeholder, className, onIm
     }, [value]);
 
     return (
-        <div className={cn("relative rounded-xl border border-white/[0.08] bg-gradient-to-b from-background/80 to-background/60 backdrop-blur-md overflow-hidden ring-offset-background transition-all focus-within:ring-2 focus-within:ring-primary/20 focus-within:ring-offset-0 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_4px_24px_-4px_rgba(0,0,0,0.15)]", className)}>
+        <div className={cn("relative rounded-2xl border border-white/[0.08] bg-gradient-to-b from-background/80 to-background/60 backdrop-blur-md overflow-hidden ring-offset-background transition-all focus-within:ring-2 focus-within:ring-primary/20 focus-within:ring-offset-0 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_4px_24px_-4px_rgba(0,0,0,0.15)]", className)}>
             <div ref={overlayRef} aria-hidden="true" className={cn("absolute inset-0 z-20 pointer-events-none select-none overflow-hidden", typographyStyles, paddingStyles)}>
                 {value.split("\n").map((line, i) => (
                     <div key={i} className="min-h-[1.5em]">
@@ -742,7 +742,7 @@ function NoteCard({ note, serialNumber, onSelect, onExpand, onToggleCheckbox, on
             transition={{ duration: 0.2 }}
             onClick={onExpand}
             className={cn(
-                "group break-inside-avoid mb-3 sm:mb-4 rounded-xl border transition-all duration-300 overflow-hidden cursor-pointer",
+                "group break-inside-avoid mb-3 sm:mb-4 rounded-2xl border transition-all duration-300 overflow-hidden cursor-pointer",
                 colorClasses.light, colorClasses.dark,
                 note.is_pinned
                     ? "border-primary/30 shadow-md shadow-primary/10"
@@ -1090,7 +1090,7 @@ export default function NotesPage() {
                             <DialogTrigger asChild>
                                 <Button size="icon" className="h-8 w-8 rounded-xl shadow-lg shadow-primary/20 shrink-0 bg-primary hover:bg-primary/90 text-primary-foreground"><Plus className="w-4 h-4" /></Button>
                             </DialogTrigger>
-                            <DialogContent className="w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-xl border-white/[0.08] bg-gradient-to-b from-background to-background/95 backdrop-blur-xl shadow-2xl">
+                            <DialogContent className="w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border-white/[0.08] bg-gradient-to-b from-background to-background/95 backdrop-blur-xl shadow-2xl">
                                 <DialogHeader><DialogTitle className="flex items-center gap-2"><StickyNote className="w-4 h-4 text-primary" />Create Note</DialogTitle></DialogHeader>
                                 <div className="space-y-3 sm:space-y-4 pt-2 sm:pt-4">
                                     <Input placeholder="Title" value={newNote.title} onChange={(e) => setNewNote({ ...newNote, title: e.target.value })} className="text-base sm:text-lg font-semibold" />
@@ -1224,7 +1224,7 @@ export default function NotesPage() {
 
                 {/* ===== READ-ONLY DIALOG ===== */}
                 <Dialog open={!!viewNote} onOpenChange={(open) => !open && setViewNote(null)}>
-                    <DialogContent className="w-[95vw] max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-xl border-white/[0.08] bg-gradient-to-b from-background to-background/95 backdrop-blur-xl shadow-2xl p-0 gap-0">
+                    <DialogContent className="w-[95vw] max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl border-white/[0.08] bg-gradient-to-b from-background to-background/95 backdrop-blur-xl shadow-2xl p-0 gap-0">
                         {viewNote && (
                             <>
                                 <DialogHeader className="p-4 sm:p-5 border-b border-white/[0.06] flex flex-row items-center justify-between sticky top-0 bg-background/80 backdrop-blur-md z-20">
@@ -1261,7 +1261,7 @@ export default function NotesPage() {
                 {/* ===== VIEW/EDIT DIALOG ===== */}
                 <Dialog open={!!selectedNote} onOpenChange={(open) => { if (!open) setSelectedNote(null); }}>
                     <DialogContent className={cn(
-                        "w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-xl border-white/[0.08] backdrop-blur-xl shadow-2xl",
+                        "w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border-white/[0.08] backdrop-blur-xl shadow-2xl",
                         selectedNote ? `${NOTE_COLORS[selectedNote.color]?.light || ""} ${NOTE_COLORS[selectedNote.color]?.dark || ""}` : ""
                     )}>
                         {selectedNote && (

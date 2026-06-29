@@ -28,7 +28,7 @@ export function MonthlySpendingCard({
   }, []);
 
   return (
-    <div className="rounded-xl sm:rounded-2xl border-2 border-violet-200 dark:border-violet-500/20 bg-gradient-to-br from-violet-50/80 via-card/80 to-fuchsia-50/80 dark:from-violet-950/80 dark:via-card/80 dark:to-fuchsia-950/80 backdrop-blur-sm p-4 sm:p-5 h-full relative overflow-hidden">
+    <div className="rounded-2xl border-2 border-violet-200 dark:border-violet-500/20 bg-gradient-to-br from-violet-50/80 via-card/80 to-fuchsia-50/80 dark:from-violet-950/80 dark:via-card/80 dark:to-fuchsia-950/80 backdrop-blur-sm p-4 sm:p-5 h-full relative overflow-hidden">
       {/* Glow orb */}
       <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-violet-500 opacity-[0.06] blur-3xl" />
 

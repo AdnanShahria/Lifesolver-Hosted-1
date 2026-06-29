@@ -410,7 +410,7 @@
 
   /* Glassmorphism card effect */
   .glass-card {
-    @apply relative backdrop-blur-xl border-2 rounded-xl;
+    @apply relative backdrop-blur-xl border-2 rounded-2xl;
     background: hsl(var(--glass-bg));
     border-color: hsl(var(--glass-border));
     contain: layout style;

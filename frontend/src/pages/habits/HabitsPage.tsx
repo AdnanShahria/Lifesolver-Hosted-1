@@ -507,7 +507,7 @@ export default function HabitsPage() {
                                         <span className="hidden sm:inline font-medium">New</span>
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent className="w-[95vw] max-w-md rounded-2xl sm:rounded-xl">
+                                <DialogContent className="w-[95vw] max-w-md rounded-2xl">
                                     <DialogHeader><DialogTitle>Create New Habit</DialogTitle></DialogHeader>
                                     <div className="space-y-4 pt-4">
                                         <Input
@@ -940,7 +940,7 @@ export default function HabitsPage() {
 
                 {/* ===== EDIT HABIT DIALOG ===== */}
                 <Dialog open={!!editingHabit} onOpenChange={(open) => !open && setEditingHabit(null)}>
-                    <DialogContent className="w-[95vw] max-w-md rounded-2xl sm:rounded-xl">
+                    <DialogContent className="w-[95vw] max-w-md rounded-2xl">
                         <DialogHeader><DialogTitle>Edit Habit</DialogTitle></DialogHeader>
                         {editingHabit && (
                             <div className="space-y-4 pt-4">

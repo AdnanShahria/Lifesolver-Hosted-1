@@ -401,7 +401,7 @@ export default function AuthPage() {
                     className="w-full max-w-[420px] relative z-10 my-auto py-2"
                 >
                     {/* Main UI Form Card */}
-                    <div className="rounded-2xl sm:rounded-3xl border border-violet-300/60 dark:border-violet-500/30 bg-card/60 backdrop-blur-md p-5 sm:p-6 shadow-xl relative overflow-hidden">
+                    <div className="rounded-2xl border border-violet-300/60 dark:border-violet-500/30 bg-card/60 backdrop-blur-md p-5 sm:p-6 shadow-xl relative overflow-hidden">
                         
                         {/* Mobile Logo */}
                         <div className="lg:hidden text-center mb-5">
