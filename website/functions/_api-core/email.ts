@@ -51,7 +51,7 @@ export async function sendOtpEmail(
   const userId = env.SENDPULSE_API_USER_ID;
   const secret = env.SENDPULSE_API_SECRET;
   const storageDir = env.SENDPULSE_TOKEN_STORAGE || '/tmp/';
-  const fromEmail = env.VITE_SMTP_USER || 'adnanshahria2006@gmail.com';
+  const fromEmail = env.SENDPULSE_SENDER_EMAIL || env.VITE_SMTP_USER || 'contact@orbitsaas.cloud';
 
   if (!userId || !secret) {
     console.warn("SendPulse credentials not configured in environment. Mocking email sending.");
