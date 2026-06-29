@@ -1,2 +1,4 @@
-# SPA fallback — serve index.html for all routes
-/*    /index.html   200
+# Multi-entrypoint fallbacks for LifeSolver
+/auth/*    /auth.html    200
+/app/*     /app.html     200
+/*         /index.html   200
