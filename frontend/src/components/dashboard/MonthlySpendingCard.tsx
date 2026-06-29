@@ -46,9 +46,9 @@ export function MonthlySpendingCard({
           {isMobile && (
             <button
               onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
-              className="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+              className="w-7 h-7 flex items-center justify-center rounded-full border border-violet-500/20 dark:border-violet-500/35 hover:bg-violet-500/10 dark:hover:bg-violet-500/20 transition-all duration-200"
             >
-              <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`} />
+              <ChevronDown className={`w-3.5 h-3.5 text-violet-500 dark:text-violet-400 transition-transform duration-350 ${isExpanded ? "rotate-180" : ""}`} />
             </button>
           )}
         </div>

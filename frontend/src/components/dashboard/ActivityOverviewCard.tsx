@@ -49,9 +49,9 @@ export function ActivityOverviewCard({
           {isMobile && (
             <button
               onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
-              className="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+              className="w-7 h-7 flex items-center justify-center rounded-full border border-primary/20 dark:border-primary/35 hover:bg-primary/10 dark:hover:bg-primary/20 transition-all duration-200"
             >
-              <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`} />
+              <ChevronDown className={`w-3.5 h-3.5 text-primary transition-transform duration-350 ${isExpanded ? "rotate-180" : ""}`} />
             </button>
           )}
         </div>
@@ -102,33 +102,34 @@ export function ActivityOverviewCard({
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
-                      className={`group relative overflow-hidden rounded-xl p-3 bg-gradient-to-br ${item.gradient} border ${item.border} backdrop-blur-sm transition-all duration-300 hover:shadow-md cursor-default flex items-center justify-between`}
+                      className={`group relative overflow-hidden rounded-xl p-2.5 bg-gradient-to-br ${item.gradient} border ${item.border} backdrop-blur-sm transition-all duration-300 hover:shadow-md cursor-default flex items-center justify-between`}
                     >
-                      <div className="flex flex-col gap-0.5">
-                        <div className="flex items-center gap-1.5 mb-1.5">
-                          <div className={`p-1 rounded-md ${item.bg}`}>
-                            <item.icon className="w-3 h-3" style={{ color: item.color }} />
+                      <div className="flex flex-col gap-0.5 min-w-0 flex-1 mr-1">
+                        <div className="flex items-center gap-1">
+                          <div className={`p-0.5 rounded ${item.bg}`}>
+                            <item.icon className="w-2.5 h-2.5" style={{ color: item.color }} />
                           </div>
-                          <span className="text-[10px] font-medium text-muted-foreground/80">{item.label}</span>
+                          <span className="text-[9px] sm:text-[10px] font-bold text-foreground/85 dark:text-foreground/90 truncate max-w-[75px] sm:max-w-[95px]">{item.label}</span>
                         </div>
 
-                        <h4 className="text-xl font-bold tracking-tight leading-none" style={{ color: item.color }}>
-                          {item.value}{item.suffix || ""}
-                        </h4>
-
-                        {item.total !== null && (
-                          <p className="text-[9px] text-muted-foreground/60 font-medium mt-1">
-                            {item.value} / {item.total}
-                          </p>
-                        )}
+                        <div className="flex items-baseline gap-1 mt-0.5">
+                          <h4 className="text-sm sm:text-base font-black tracking-tight leading-none" style={{ color: item.color }}>
+                            {item.value}{item.suffix || ""}
+                          </h4>
+                          {item.total !== null && (
+                            <span className="text-[8px] sm:text-[9px] text-muted-foreground/60 font-semibold leading-none shrink-0">
+                              / {item.total}
+                            </span>
+                          )}
+                        </div>
                       </div>
 
-                      <RadialProgress progress={pct} color={item.color} size={42} strokeWidth={4}>
-                        <span className="text-[9px] font-bold" style={{ color: item.color }}>{pct}%</span>
+                      <RadialProgress progress={pct} color={item.color} size={32} strokeWidth={3}>
+                        <span className="text-[8px] font-bold" style={{ color: item.color }}>{pct}%</span>
                       </RadialProgress>
 
                       {/* Glow orb */}
-                      <div className="absolute -bottom-6 -right-6 w-24 h-24 rounded-full opacity-10 blur-2xl group-hover:opacity-20 transition-opacity duration-500"
+                      <div className="absolute -bottom-6 -right-6 w-16 h-16 rounded-full opacity-10 blur-2xl group-hover:opacity-20 transition-opacity duration-500 pointer-events-none"
                         style={{ backgroundColor: item.color }} />
                     </motion.div>
                   );

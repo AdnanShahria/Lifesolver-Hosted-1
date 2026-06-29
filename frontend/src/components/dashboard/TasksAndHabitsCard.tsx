@@ -46,7 +46,7 @@ export function TasksAndHabitsCard({
   return (
     <>
       {/* ── Recent Tasks ── */}
-      <motion.div variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}>
+      <motion.div className="h-full" variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}>
         <div className="rounded-2xl border-2 border-blue-200 dark:border-blue-500/20 bg-gradient-to-br from-blue-50/80 via-card/80 to-sky-50/80 dark:from-blue-950/80 dark:via-card/80 dark:to-sky-950/80 backdrop-blur-sm p-4 sm:p-5 h-full relative overflow-hidden">
           {/* Glow */}
           <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-blue-500 opacity-[0.06] blur-3xl" />
@@ -69,9 +69,9 @@ export function TasksAndHabitsCard({
                 {isMobile && (
                   <button
                     onClick={(e) => { e.stopPropagation(); toggleSection("tasks"); }}
-                    className="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors ml-1"
+                    className="w-7 h-7 flex items-center justify-center rounded-full border border-blue-500/20 dark:border-blue-500/35 hover:bg-blue-500/10 dark:hover:bg-blue-500/20 transition-all duration-200 ml-1.5 shrink-0"
                   >
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${expandedSections["tasks"] ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`w-3.5 h-3.5 text-blue-500 dark:text-blue-400 transition-transform duration-350 ${expandedSections["tasks"] ? "rotate-180" : ""}`} />
                   </button>
                 )}
               </div>
@@ -131,7 +131,7 @@ export function TasksAndHabitsCard({
       </motion.div>
 
       {/* ── Habits ── */}
-      <motion.div variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}>
+      <motion.div className="h-full" variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}>
         <div className="rounded-2xl border-2 border-orange-200 dark:border-orange-500/20 bg-gradient-to-br from-orange-50/80 via-card/80 to-amber-50/80 dark:from-orange-950/80 dark:via-card/80 dark:to-amber-950/80 backdrop-blur-sm p-4 sm:p-5 h-full relative overflow-hidden">
           {/* Glow */}
           <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-orange-500 opacity-[0.06] blur-3xl" />
@@ -154,9 +154,9 @@ export function TasksAndHabitsCard({
                 {isMobile && (
                   <button
                     onClick={(e) => { e.stopPropagation(); toggleSection("habits"); }}
-                    className="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors ml-1"
+                    className="w-7 h-7 flex items-center justify-center rounded-full border border-orange-500/20 dark:border-orange-500/35 hover:bg-orange-500/10 dark:hover:bg-orange-500/20 transition-all duration-200 ml-1.5 shrink-0"
                   >
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${expandedSections["habits"] ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`w-3.5 h-3.5 text-orange-500 dark:text-orange-400 transition-transform duration-350 ${expandedSections["habits"] ? "rotate-180" : ""}`} />
                   </button>
                 )}
               </div>

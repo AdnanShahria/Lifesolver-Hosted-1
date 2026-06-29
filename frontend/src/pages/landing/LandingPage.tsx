@@ -23,7 +23,7 @@ import { AiSummaryCard } from "@/components/dashboard/AiSummaryCard";
 import { MonthlySpendingCard } from "@/components/dashboard/MonthlySpendingCard";
 import { ActivityOverviewCard } from "@/components/dashboard/ActivityOverviewCard";
 import { TasksAndHabitsCard } from "@/components/dashboard/TasksAndHabitsCard";
-import { StudyAndTransactionsCard } from "@/components/dashboard/StudyAndTransactionsCard";
+import { StudyProgressCard } from "@/components/dashboard/StudyProgressCard";
 
 // Color palette
 const CATEGORY_COLORS: Record<string, string> = {
@@ -134,12 +134,167 @@ const Index = () => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
-  const { balance, totalIncome, totalExpenses, expensesByCategory, expenses, regularEntries, isLoading: isFinancesLoading } = useFinance();
-  const { totalSavings, budgetRemaining, primaryBudget, savingsGoals } = useBudget();
-  const { tasks, isLoading: isTasksLoading } = useTasks();
-  const { habits, isLoading: isHabitsLoading } = useHabits();
-  const { chapters, subjects, subjectProgress, chapterProgress, isLoading: isStudyLoading } = useStudy();
-  const { notes, isLoading: isNotesLoading } = useNotes();
+  const { balance: rawBalance, totalIncome: rawTotalIncome, totalExpenses: rawTotalExpenses, expensesByCategory: rawExpensesByCategory, regularEntries: rawRegularEntries, isLoading: isFinancesLoading } = useFinance();
+  const { totalSavings: rawTotalSavings, budgetRemaining: rawBudgetRemaining, primaryBudget: rawPrimaryBudget, savingsGoals: rawSavingsGoals } = useBudget();
+  const { tasks: rawTasks, isLoading: isTasksLoading } = useTasks();
+  const { habits: rawHabits, isLoading: isHabitsLoading } = useHabits();
+  const { chapters: rawChapters, subjects: rawSubjects, subjectProgress: rawSubjectProgress, chapterProgress: rawChapterProgress, isLoading: isStudyLoading } = useStudy();
+  const { notes: rawNotes, isLoading: isNotesLoading } = useNotes();
+
+  const isDev = import.meta.env.DEV;
+  const todayStr = new Date().toISOString().split("T")[0];
+  const lastMonthStr = useMemo(() => {
+    const d = new Date();
+    d.setMonth(d.getMonth() - 1);
+    return d.toISOString().split("T")[0];
+  }, []);
+
+  const tasks = useMemo(() => {
+    if (isDev && (!rawTasks || rawTasks.length === 0)) {
+      return [
+        { id: "t1", title: "Release lifeos-v2.0 production build", status: "pending", priority: "urgent", due_date: todayStr },
+        { id: "t2", title: "Review UI feedback and mockups", status: "pending", priority: "high", due_date: todayStr },
+        { id: "t3", title: "Complete system architecture diagram", status: "done", priority: "medium", due_date: todayStr },
+        { id: "t4", title: "Update habits tracking system", status: "done", priority: "low", due_date: todayStr },
+        { id: "t5", title: "Schedule SaaS landing page audit", status: "pending", priority: "medium", due_date: todayStr }
+      ];
+    }
+    return rawTasks || [];
+  }, [rawTasks, isDev, todayStr]);
+
+  const habits = useMemo(() => {
+    if (isDev && (!rawHabits || rawHabits.length === 0)) {
+      return [
+        { id: "h1", habit_name: "Code 2 hours daily", streak_count: 14, last_completed_date: todayStr },
+        { id: "h2", habit_name: "Morning workout (30 min)", streak_count: 7, last_completed_date: "" },
+        { id: "h3", habit_name: "Read 15 pages of book", streak_count: 22, last_completed_date: todayStr },
+        { id: "h4", habit_name: "Drink 3L water", streak_count: 5, last_completed_date: todayStr }
+      ];
+    }
+    return rawHabits || [];
+  }, [rawHabits, isDev, todayStr]);
+
+  const notes = useMemo(() => {
+    if (isDev && (!rawNotes || rawNotes.length === 0)) {
+      return [
+        { id: "n1", title: "App Roadmap Ideas" },
+        { id: "n2", title: "Personal Budget Plan" },
+        { id: "n3", title: "SaaS Checklist" },
+        { id: "n4", title: "Interview Prep Notes" }
+      ];
+    }
+    return rawNotes || [];
+  }, [rawNotes, isDev]);
+
+  const regularEntries = useMemo(() => {
+    if (isDev && (!rawRegularEntries || rawRegularEntries.length === 0)) {
+      return [
+        { id: "tx1", date: todayStr, type: "income", amount: 120000, category: "Salary", description: "Monthly Software Engineer Salary" },
+        { id: "tx2", date: todayStr, type: "expense", amount: 12000, category: "Food", description: "Sushi dinner with friends" },
+        { id: "tx3", date: todayStr, type: "expense", amount: 9000, category: "Bills", description: "High-speed Internet & Electricity" },
+        { id: "tx4", date: todayStr, type: "expense", amount: 5000, category: "Transport", description: "Uber rides & fuel" },
+        { id: "tx5", date: todayStr, type: "expense", amount: 4500, category: "Entertainment", description: "Netflix, Spotify & Gym" },
+        { id: "tx6", date: lastMonthStr, type: "expense", amount: 15000, category: "Food", description: "Grocery and dine out" },
+        { id: "tx7", date: lastMonthStr, type: "expense", amount: 10000, category: "Bills", description: "Rent & Utilities" },
+        { id: "tx8", date: lastMonthStr, type: "expense", amount: 5000, category: "Transport", description: "Fuel and transit" },
+        { id: "tx9", date: lastMonthStr, type: "expense", amount: 10000, category: "Shopping", description: "Cloths and tech gears" }
+      ];
+    }
+    return rawRegularEntries || [];
+  }, [rawRegularEntries, isDev, todayStr, lastMonthStr]);
+
+  const balance = useMemo(() => {
+    if (isDev && rawBalance === 0 && (!rawRegularEntries || rawRegularEntries.length === 0)) {
+      return 84500;
+    }
+    return rawBalance;
+  }, [rawBalance, rawRegularEntries, isDev]);
+
+  const totalIncome = useMemo(() => {
+    if (isDev && rawTotalIncome === 0 && (!rawRegularEntries || rawRegularEntries.length === 0)) {
+      return 120000;
+    }
+    return rawTotalIncome;
+  }, [rawTotalIncome, rawRegularEntries, isDev]);
+
+  const totalExpenses = useMemo(() => {
+    if (isDev && rawTotalExpenses === 0 && (!rawRegularEntries || rawRegularEntries.length === 0)) {
+      return 35500;
+    }
+    return rawTotalExpenses;
+  }, [rawTotalExpenses, rawRegularEntries, isDev]);
+
+  const expensesByCategory = useMemo(() => {
+    if (isDev && (!rawExpensesByCategory || Object.keys(rawExpensesByCategory).length === 0)) {
+      return { Food: 12000, Transport: 5000, Entertainment: 4500, Bills: 9000, Shopping: 5000 };
+    }
+    return rawExpensesByCategory || {};
+  }, [rawExpensesByCategory, isDev]);
+
+  const totalSavings = useMemo(() => {
+    if (isDev && rawTotalSavings === 0) {
+      return 250000;
+    }
+    return rawTotalSavings;
+  }, [rawTotalSavings, isDev]);
+
+  const budgetRemaining = useMemo(() => {
+    if (isDev && rawBudgetRemaining === 0 && !rawPrimaryBudget) {
+      return 14500;
+    }
+    return rawBudgetRemaining;
+  }, [rawBudgetRemaining, rawPrimaryBudget, isDev]);
+
+  const primaryBudget = useMemo(() => {
+    if (isDev && !rawPrimaryBudget) {
+      return { name: "Monthly Living Expenses", target_amount: 50000 };
+    }
+    return rawPrimaryBudget;
+  }, [rawPrimaryBudget, isDev]);
+
+  const savingsGoals = useMemo(() => {
+    if (isDev && (!rawSavingsGoals || rawSavingsGoals.length === 0)) {
+      return [{ id: "g1" }, { id: "g2" }];
+    }
+    return rawSavingsGoals || [];
+  }, [rawSavingsGoals, isDev]);
+
+  const subjects = useMemo(() => {
+    if (isDev && (!rawSubjects || rawSubjects.length === 0)) {
+      return [
+        { id: "s1", name: "System Design" },
+        { id: "s2", name: "Machine Learning" },
+        { id: "s3", name: "Financial Markets" }
+      ];
+    }
+    return rawSubjects || [];
+  }, [rawSubjects, isDev]);
+
+  const chapters = useMemo(() => {
+    if (isDev && (!rawChapters || rawChapters.length === 0)) {
+      return [
+        { id: "c1", name: "Load Balancers & Caching", subject_id: "s1" },
+        { id: "c2", name: "Database Sharding & Replication", subject_id: "s1" },
+        { id: "c3", name: "Neural Networks Intro", subject_id: "s2" },
+        { id: "c4", name: "Time Series Forecasting", subject_id: "s3" }
+      ];
+    }
+    return rawChapters || [];
+  }, [rawChapters, isDev]);
+
+  const chapterProgress = useMemo(() => {
+    if (isDev && (!rawChapterProgress || Object.keys(rawChapterProgress).length === 0)) {
+      return { "c1": 100, "c2": 40, "c3": 100, "c4": 20 };
+    }
+    return rawChapterProgress || {};
+  }, [rawChapterProgress, isDev]);
+
+  const subjectProgress = useMemo(() => {
+    if (isDev && (!rawSubjectProgress || Object.keys(rawSubjectProgress).length === 0)) {
+      return { "s1": 70, "s2": 100, "s3": 20 };
+    }
+    return rawSubjectProgress || {};
+  }, [rawSubjectProgress, isDev]);
 
   useEffect(() => { document.documentElement.classList.add(theme); }, []);
 
@@ -150,7 +305,6 @@ const Index = () => {
 
   // ===== TASK ANALYTICS =====
   const allTasks = tasks || [];
-  const todayStr = new Date().toISOString().split("T")[0];
   const todaysTasks = allTasks.filter(t => t.due_date?.split("T")[0] === todayStr);
   const pendingTasks = allTasks.filter(t => t.status !== "done");
   const completedTasks = allTasks.filter(t => t.status === "done");
@@ -195,7 +349,6 @@ const Index = () => {
   }));
 
   const formatCurrency = (amount: number) => `৳${Math.abs(amount).toLocaleString()}`;
-  const recentTransactions = (regularEntries || []).slice(0, 5);
 
   // Format date safely
   const formatTaskDate = (dateStr?: string) => {
@@ -386,27 +539,31 @@ Respond in this EXACT JSON format:
       <motion.div variants={stagger} initial="hidden" animate="show" className="grid grid-cols-2 lg:grid-cols-4 gap-1.5 sm:gap-3 mb-3 sm:mb-6">
         {statCards.map((stat) => (
           <motion.div key={stat.label} variants={fadeUp}
-            className={`group relative overflow-hidden rounded-2xl p-2 sm:p-4 bg-gradient-to-br ${stat.gradient} border-2 ${stat.borderColor} hover:shadow-xl transition-all duration-300 cursor-default ${stat.className || ""}`}
+            className={`group relative overflow-hidden rounded-xl p-2 sm:p-3 bg-gradient-to-br ${stat.gradient} border-2 ${stat.borderColor} hover:shadow-lg transition-all duration-300 cursor-default ${stat.className || ""}`}
           >
             {/* Glow orb */}
-            <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full opacity-25 blur-2xl transition-opacity duration-500 group-hover:opacity-50"
+            <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full opacity-20 blur-xl transition-opacity duration-500 group-hover:opacity-45 pointer-events-none"
               style={{ backgroundColor: stat.accent }} />
 
             <div className="relative z-10">
-              <div className="flex items-start justify-between mb-1.5 sm:mb-3">
-                <div className="p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl shadow-sm" style={{ backgroundColor: `${stat.accent}25`, boxShadow: `0 2px 8px ${stat.accent}15` }}>
-                  <stat.icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" style={{ color: stat.accent }} />
+              <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="p-1 sm:p-1.5 rounded-lg shadow-sm" style={{ backgroundColor: `${stat.accent}20` }}>
+                    <stat.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" style={{ color: stat.accent }} />
+                  </div>
+                  <span className="text-[10px] sm:text-xs font-bold tracking-wide" style={{ color: stat.accent }}>{stat.label}</span>
                 </div>
                 {stat.trend && (
-                  <Badge variant="outline" className="text-[8px] sm:text-[10px] h-4 sm:h-5 font-semibold" style={{ borderColor: `${stat.accent}40`, color: stat.accent }}>
-                    {stat.trend.up ? <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-0.5" /> : <ArrowDownRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-0.5" />}
+                  <Badge variant="outline" className="text-[8px] sm:text-[9px] h-4 sm:h-4.5 font-semibold px-1 flex items-center gap-0.5" style={{ borderColor: `${stat.accent}30`, color: stat.accent, backgroundColor: `${stat.accent}10` }}>
+                    {stat.trend.up ? <ArrowUpRight className="w-2 h-2 sm:w-2.5 sm:h-2.5" /> : <ArrowDownRight className="w-2 h-2 sm:w-2.5 sm:h-2.5" />}
                     {stat.trend.value}%
                   </Badge>
                 )}
               </div>
-              <h3 className="text-base sm:text-xl md:text-2xl font-bold tracking-tight">{stat.value}</h3>
-              <p className="text-[9px] sm:text-xs mt-0.5 font-semibold" style={{ color: stat.accent }}>{stat.label}</p>
-              <p className="text-[9px] sm:text-[10px] text-muted-foreground/60 mt-0.5 hidden sm:block">{stat.sub}</p>
+              <div className="flex items-baseline justify-between mt-1">
+                <h3 className="text-sm sm:text-lg md:text-xl font-black tracking-tight">{stat.value}</h3>
+                <span className="text-[8px] sm:text-[9px] text-muted-foreground/60 font-medium truncate max-w-[80px] sm:max-w-[120px]">{stat.sub}</span>
+              </div>
             </div>
           </motion.div>
         ))}
@@ -479,14 +636,13 @@ Respond in this EXACT JSON format:
           todayStr={todayStr}
         />
 
-        {/* ── Study + Transactions ── */}
-        <motion.div variants={fadeUp} className="space-y-4">
-          <StudyAndTransactionsCard 
+        {/* ── Study Progress ── */}
+        <motion.div variants={fadeUp} className="h-full">
+          <StudyProgressCard 
             studyProgress={studyProgress}
             completedChapters={completedChapters}
             allChapters={allChapters}
             subjectProgressList={subjectProgressList}
-            recentTransactions={recentTransactions}
           />
         </motion.div>
       </motion.div>
