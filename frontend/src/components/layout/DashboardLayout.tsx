@@ -8,24 +8,32 @@ import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useAppData } from "@/hooks/useAppData";
-import { PageSkeleton } from "@/components/ui/PageSkeleton";
+import { useTheme } from "@/hooks/useTheme";
 
 export function DashboardLayout() {
     const location = useLocation();
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+    const { theme } = useTheme();
 
-    const { isLoading } = useAppData();
-
-    if (isLoading) {
-        return <PageSkeleton />;
-    }
+    useAppData(); // Kicks off the background prefetch of all app data
 
     return (
         <div className="min-h-screen bg-background">
             {/* Ambient background gradient */}
-            <div className="fixed inset-0 pointer-events-none">
-                <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/3 rounded-full blur-3xl" />
+            <div className="fixed inset-0 pointer-events-none overflow-hidden">
+                {theme === "light" ? (
+                    <>
+                        {/* Blue smoky foggy theme with 5% opacity */}
+                        <div className="absolute top-[-10%] left-[-10%] w-[75vw] h-[75vw] max-w-[1000px] bg-blue-500/5 rounded-full blur-[120px] animate-smoke-1" />
+                        <div className="absolute bottom-[-10%] right-[-10%] w-[65vw] h-[65vw] max-w-[900px] bg-sky-400/5 rounded-full blur-[130px] animate-smoke-2" />
+                        <div className="absolute top-1/4 left-1/3 w-[55vw] h-[55vw] max-w-[800px] bg-indigo-400/5 rounded-full blur-[140px] animate-smoke-3" />
+                    </>
+                ) : (
+                    <>
+                        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+                        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/3 rounded-full blur-3xl" />
+                    </>
+                )}
             </div>
 
             {/* Sidebar - Desktop only */}

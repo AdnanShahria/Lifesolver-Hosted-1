@@ -144,12 +144,12 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
   return (
     <aside className={cn(
-      "hidden md:flex flex-col h-[100dvh] fixed left-0 top-0 transition-all duration-300 border-r border-border/70 z-50",
-      "bg-card text-card-foreground select-none overflow-y-auto no-scrollbar",
+      "hidden md:flex flex-col h-[100dvh] fixed left-0 top-0 transition-all duration-300 z-50",
+      "bg-background/20 backdrop-blur-xl text-card-foreground select-none overflow-y-auto no-scrollbar",
       isCollapsed ? "w-20" : "w-64"
     )}>
       {/* Brand & Toggle Box */}
-      <div className={cn("m-3 p-3 flex items-center bg-secondary/40 border border-border rounded-2xl shadow-sm sticky top-3 z-10 transition-all duration-300", isCollapsed ? "justify-center flex-col gap-4" : "justify-between")}>
+      <div className={cn("m-3 p-3 flex items-center bg-background/40 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.1)] sticky top-3 z-10 transition-all duration-300", isCollapsed ? "justify-center flex-col gap-4" : "justify-between")}>
         <div className="flex items-center gap-3 cursor-pointer group flex-1 min-w-0" onClick={() => navigate("/dashboard")}>
           <div className="relative w-9 h-9 rounded-xl flex items-center justify-center shrink-0 overflow-hidden bg-primary/10 border border-primary/20 shadow-inner group-hover:scale-105 transition-transform duration-300">
             <img src="/logo.svg" alt="LifeSolver Logo" className="w-6 h-6 object-contain" />
@@ -206,7 +206,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
       </div>
 
       {/* Combined Theme & User Profile Box */}
-      <div className={cn("m-3 p-3 bg-secondary/40 border border-border rounded-2xl shadow-sm transition-all duration-300 sticky bottom-3 z-10 flex flex-col gap-4", isCollapsed ? "" : "")}>
+      <div className={cn("m-3 p-3 bg-background/40 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition-all duration-300 sticky bottom-3 z-10 flex flex-col gap-4", isCollapsed ? "" : "")}>
 
         {/* Theme Toggle Strip */}
         <div className={cn(

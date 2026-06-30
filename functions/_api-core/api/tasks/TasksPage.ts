@@ -37,16 +37,55 @@ export async function handleTasksRoute(context: PagesFunctionContext<Env>): Prom
       }
     }
 
-    if (method === 'POST' && url.pathname.includes('/complete')) {
-        const body = await context.request.json() as any;
-        const id = body.id;
-        if (!id) return errorResponse("Missing ID", 400);
-        
-        await context.env.DB.prepare(
-            "UPDATE tasks SET status = 'done', completed_at = CURRENT_TIMESTAMP WHERE id = ? AND user_id = ?"
-        ).bind(id, userId).run();
-        
-        return jsonResponse({ success: true });
+    if (method === 'POST') {
+      if (url.pathname.includes('/complete')) {
+          const body = await context.request.json() as any;
+          const id = body.id;
+          if (!id) return errorResponse("Missing ID", 400);
+          
+          await context.env.DB.prepare(
+              "UPDATE tasks SET status = 'done', completed_at = CURRENT_TIMESTAMP WHERE id = ? AND user_id = ?"
+          ).bind(id, userId).run();
+          
+          return jsonResponse({ success: true });
+      }
+
+      if (url.pathname.includes('/batch-create')) {
+          const body = await context.request.json() as any;
+          const parentTask = body.task;
+          const subTasks = body.subTasks || [];
+
+          if (!parentTask || !parentTask.id) return errorResponse("Missing main task", 400);
+
+          const stmts = [];
+
+          // Helper to generate insert statement
+          const buildInsert = (item: any) => {
+              const keys = Object.keys(item);
+              const columns = keys.join(', ');
+              const placeholders = keys.map(() => '?').join(', ');
+              const values = keys.map(k => item[k]);
+              return context.env.DB.prepare(`INSERT INTO tasks (${columns}) VALUES (${placeholders})`).bind(...values);
+          };
+
+          // 1. Insert parent task
+          parentTask.user_id = userId;
+          stmts.push(buildInsert(parentTask));
+
+          // 2. Insert subtasks
+          for (let i = 0; i < subTasks.length; i++) {
+              const st = subTasks[i];
+              st.user_id = userId;
+              st.parent_task_id = parentTask.id;
+              st.order_index = i;
+              stmts.push(buildInsert(st));
+          }
+
+          // Execute batch
+          await context.env.DB.batch(stmts);
+
+          return jsonResponse({ success: true, parent_id: parentTask.id, subtasks_created: subTasks.length });
+      }
     }
 
     // Fallback to dynamicHandler for simple CRUD

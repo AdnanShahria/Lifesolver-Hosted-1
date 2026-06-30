@@ -948,7 +948,7 @@ export default function FinancePage() {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="relative overflow-hidden rounded-2xl p-3 sm:p-5 cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-green-500/20 via-green-400/10 to-emerald-500/5 border border-green-200/50 dark:border-green-500/20 group"
+                        className="relative overflow-hidden rounded-2xl p-3 sm:p-5 cursor-pointer hover:shadow-xl shadow-sm dark:shadow-none transition-all duration-300 bg-white/90 dark:bg-transparent bg-gradient-to-br from-green-500/20 via-green-400/10 to-emerald-500/5 border border-green-200/50 dark:border-green-500/20 group"
                         onClick={() => openHistory("income")}
                     >
                         <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-green-500/20 blur-2xl transition-opacity opacity-0 group-hover:opacity-100" />
@@ -968,7 +968,7 @@ export default function FinancePage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.1 }}
-                        className="relative overflow-hidden rounded-2xl p-3 sm:p-5 cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-red-500/20 via-red-400/10 to-pink-500/5 border border-red-200/50 dark:border-red-500/20 group"
+                        className="relative overflow-hidden rounded-2xl p-3 sm:p-5 cursor-pointer hover:shadow-xl shadow-sm dark:shadow-none transition-all duration-300 bg-white/90 dark:bg-transparent bg-gradient-to-br from-red-500/20 via-red-400/10 to-pink-500/5 border border-red-200/50 dark:border-red-500/20 group"
                         onClick={() => openHistory("expense")}
                     >
                         <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-red-500/20 blur-2xl transition-opacity opacity-0 group-hover:opacity-100" />
@@ -988,7 +988,7 @@ export default function FinancePage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.2 }}
-                        className="relative overflow-hidden rounded-2xl p-3 sm:p-5 cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-500/20 via-blue-400/10 to-indigo-500/5 border border-blue-200/50 dark:border-blue-500/20 group col-span-2 sm:col-span-1"
+                        className="relative overflow-hidden rounded-2xl p-3 sm:p-5 cursor-pointer hover:shadow-xl shadow-sm dark:shadow-none transition-all duration-300 bg-white/90 dark:bg-transparent bg-gradient-to-br from-blue-500/20 via-blue-400/10 to-indigo-500/5 border border-blue-200/50 dark:border-blue-500/20 group col-span-2 sm:col-span-1"
                         onClick={() => openHistory("all")}
                     >
                         <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-blue-500/20 blur-2xl transition-opacity opacity-0 group-hover:opacity-100" />
@@ -1016,7 +1016,7 @@ export default function FinancePage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.3 }}
-                        className="relative overflow-hidden rounded-2xl p-3 sm:p-5 bg-gradient-to-br from-amber-500/20 via-amber-400/10 to-orange-500/5 border border-amber-200/50 dark:border-amber-500/20 group"
+                        className="relative overflow-hidden rounded-2xl p-3 sm:p-5 bg-white/90 dark:bg-transparent shadow-sm dark:shadow-none bg-gradient-to-br from-amber-500/20 via-amber-400/10 to-orange-500/5 border border-amber-200/50 dark:border-amber-500/20 group"
                     >
                         <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-amber-500/20 blur-2xl transition-opacity opacity-0 group-hover:opacity-100" />
                         <div className="relative z-10">
@@ -1041,7 +1041,7 @@ export default function FinancePage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.4 }}
-                        className="relative overflow-hidden rounded-2xl p-3 sm:p-5 cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purple-500/20 via-purple-400/10 to-violet-500/5 border border-purple-200/50 dark:border-purple-500/20 group"
+                        className="relative overflow-hidden rounded-2xl p-3 sm:p-5 cursor-pointer hover:shadow-xl shadow-sm dark:shadow-none transition-all duration-300 bg-white/90 dark:bg-transparent bg-gradient-to-br from-purple-500/20 via-purple-400/10 to-violet-500/5 border border-purple-200/50 dark:border-purple-500/20 group"
                         onClick={() => setIsSavingsHistoryOpen(true)}
                     >
                         <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-purple-500/20 blur-2xl transition-opacity opacity-0 group-hover:opacity-100" />
@@ -1063,7 +1063,7 @@ export default function FinancePage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.5 }}
-                        className="relative overflow-hidden rounded-2xl p-3 sm:p-5 col-span-2 bg-gradient-to-br from-indigo-500/20 via-purple-500/15 to-violet-500/5 border border-indigo-500/20 shadow-sm"
+                        className="relative overflow-hidden rounded-2xl p-3 sm:p-5 col-span-2 bg-white/90 dark:bg-transparent bg-gradient-to-br from-indigo-500/20 via-purple-500/15 to-violet-500/5 border border-indigo-500/20 shadow-sm dark:shadow-none"
                     >
                         <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-indigo-500/20 blur-3xl" />
 

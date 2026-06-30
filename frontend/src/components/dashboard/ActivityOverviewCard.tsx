@@ -10,6 +10,7 @@ interface ActivityOverviewCardProps {
   allHabits: any[];
   studyProgress: number;
   notes: any[];
+  compact?: boolean;
 }
 
 export function ActivityOverviewCard({
@@ -18,7 +19,8 @@ export function ActivityOverviewCard({
   habitsCompletedToday,
   allHabits,
   studyProgress,
-  notes
+  notes,
+  compact = false
 }: ActivityOverviewCardProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
@@ -30,42 +32,17 @@ export function ActivityOverviewCard({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  return (
-    <div className="rounded-2xl border-2 border-primary/10 bg-card/80 bg-gradient-to-br from-primary/15 via-card/80 to-transparent backdrop-blur-sm p-4 sm:p-5 relative overflow-hidden">
-      {/* Glow orb */}
-      <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-primary/5 blur-3xl" />
-
-      <div className="relative z-10">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-xl bg-primary/10 shadow-sm shadow-primary/5">
-              <Activity className="w-4 h-4 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-sm">Activity Overview</h3>
-              <p className="text-[10px] text-muted-foreground">Your daily progress</p>
-            </div>
-          </div>
-          {isMobile && (
-            <button
-              onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
-              className="w-7 h-7 flex items-center justify-center rounded-full border border-primary/20 dark:border-primary/35 hover:bg-primary/10 dark:hover:bg-primary/20 transition-all duration-200"
-            >
-              <ChevronDown className={`w-3.5 h-3.5 text-primary transition-transform duration-350 ${isExpanded ? "rotate-180" : ""}`} />
-            </button>
-          )}
-        </div>
-
-        <AnimatePresence>
-          {(!isMobile || isExpanded) && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden"
-            >
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
+  const content = (
+    <AnimatePresence>
+      {(!isMobile || isExpanded || compact) && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="overflow-hidden h-full flex flex-col justify-center"
+        >
+          <div className={`grid gap-2 sm:gap-3 ${compact ? 'grid-cols-2 h-full' : 'grid-cols-2 lg:grid-cols-4'}`}>
                 {[
                   {
                     label: "Tasks Done", value: completedTasks.length, total: allTasks.length,
@@ -135,9 +112,45 @@ export function ActivityOverviewCard({
                   );
                 })}
               </div>
-            </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+
+  if (compact) {
+    return (
+      <div className="w-full h-full bg-white/40 dark:bg-card/40 rounded-2xl p-2 sm:p-3 border border-primary/5 backdrop-blur-sm">
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-2xl border-2 border-primary/10 bg-white/90 dark:bg-card/80 bg-gradient-to-br from-primary/10 via-white/50 to-transparent dark:from-primary/15 dark:via-card/80 backdrop-blur-md shadow-xl shadow-primary/5 dark:shadow-none p-4 sm:p-5 relative overflow-hidden">
+      {/* Glow orb */}
+      <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-primary/5 blur-3xl" />
+
+      <div className="relative z-10">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="p-2 rounded-xl bg-primary/10 shadow-sm shadow-primary/5">
+              <Activity className="w-4 h-4 text-primary" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-sm">Activity Overview</h3>
+              <p className="text-[10px] text-muted-foreground">Your daily progress</p>
+            </div>
+          </div>
+          {isMobile && (
+            <button
+              onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
+              className="w-7 h-7 flex items-center justify-center rounded-full border border-primary/20 dark:border-primary/35 hover:bg-primary/10 dark:hover:bg-primary/20 transition-all duration-200"
+            >
+              <ChevronDown className={`w-3.5 h-3.5 text-primary transition-transform duration-350 ${isExpanded ? "rotate-180" : ""}`} />
+            </button>
           )}
-        </AnimatePresence>
+        </div>
+        {content}
       </div>
     </div>
   );

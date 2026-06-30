@@ -68,6 +68,31 @@ export function useTasks() {
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tasks"] }),
     });
 
+    const addTasksBatch = useMutation({
+        mutationFn: async ({ task, subTasks }: { task: Partial<Omit<Task, "id" | "user_id" | "created_at">>, subTasks: Partial<Omit<Task, "id" | "user_id" | "created_at" | "parent_task_id">>[] }) => {
+            if (!userId) throw new Error("Not authenticated");
+            
+            // Generate parent UUID to link subtasks before sending to backend, or let backend generate it
+            // the backend batch-create expects the parent task to be fully formed except id, 
+            // wait, the dynamic POST handler creates UUID if missing. My batch-create implementation didn't create an ID if missing!
+            // I should generate IDs here to be safe!
+            const parentId = crypto.randomUUID();
+            const parentTaskToSubmit = { ...task, id: parentId };
+            
+            const subTasksToSubmit = subTasks.map(st => ({ ...st, id: crypto.randomUUID() }));
+
+            const res = await apiFetch("/api/tasks/batch-create", {
+                method: "POST",
+                body: JSON.stringify({ task: parentTaskToSubmit, subTasks: subTasksToSubmit })
+            });
+            return res.parent_id;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["tasks"] });
+            queryClient.invalidateQueries({ queryKey: ["study"] });
+        },
+    });
+
     const updateTask = useMutation({
         mutationFn: async (task: Partial<Task> & { id: string }) => {
             await apiFetch("/api/tasks", {
@@ -120,6 +145,7 @@ export function useTasks() {
         isLoading: tasksQuery.isLoading,
         error: tasksQuery.error,
         addTask,
+        addTasksBatch,
         updateTask,
         deleteTask,
         completeTask,

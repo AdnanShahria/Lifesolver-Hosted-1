@@ -820,12 +820,12 @@
   }
 
   /* Hide scrollbar utility */
-  .no-scrollbar {
+  .no-scrollbar, .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
 
-  .no-scrollbar::-webkit-scrollbar {
+  .no-scrollbar::-webkit-scrollbar, .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
 
@@ -909,4 +909,35 @@
 .page-exit {
   animation: pageExit 0.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   pointer-events: none;
+}
+
+/* Smoky/foggy background drift animations */
+@keyframes smokeDrift1 {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(5%, 8%) scale(1.15) rotate(15deg); }
+  100% { transform: translate(-3%, -5%) scale(0.9) rotate(-15deg); }
+}
+
+@keyframes smokeDrift2 {
+  0% { transform: translate(0, 0) scale(1.1) rotate(0deg); }
+  50% { transform: translate(-6%, -4%) scale(0.9) rotate(-20deg); }
+  100% { transform: translate(4%, 6%) scale(1.2) rotate(20deg); }
+}
+
+@keyframes smokeDrift3 {
+  0% { transform: translate(0, 0) scale(0.95) rotate(0deg); }
+  50% { transform: translate(6%, -7%) scale(1.05) rotate(10deg); }
+  100% { transform: translate(-5%, 5%) scale(1) rotate(-10deg); }
+}
+
+.animate-smoke-1 {
+  animation: smokeDrift1 25s ease-in-out infinite alternate;
+}
+
+.animate-smoke-2 {
+  animation: smokeDrift2 32s ease-in-out infinite alternate;
+}
+
+.animate-smoke-3 {
+  animation: smokeDrift3 28s ease-in-out infinite alternate;
 }

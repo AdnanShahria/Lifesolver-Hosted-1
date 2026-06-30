@@ -60,7 +60,7 @@ createRoot(document.getElementById("root")!).render(
     <HelmetProvider>
         <LanguageProvider>
             <QueryClientProvider client={queryClient}>
-                <BrowserRouter basename="/app" future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+                <BrowserRouter basename="/app" future={{ v7_relativeSplatPath: true }}>
                     <AuthProvider>
                         <AIProvider>
                             <TooltipProvider>

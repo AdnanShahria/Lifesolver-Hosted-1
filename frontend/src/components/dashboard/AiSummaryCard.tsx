@@ -204,24 +204,24 @@ Respond in this EXACT JSON format:
   } : null);
 
   return (
-    <div className="rounded-2xl border-2 border-sky-200 dark:border-sky-500/20 bg-gradient-to-br from-sky-50/80 via-card/80 to-indigo-50/80 dark:from-sky-950/80 dark:via-card/80 dark:to-indigo-950/80 backdrop-blur-sm p-4 sm:p-5 relative overflow-hidden h-full">
+    <div className="rounded-2xl border border-slate-200/80 dark:border-sky-500/10 bg-white/80 dark:bg-card/80 backdrop-blur-xl dark:bg-gradient-to-br dark:from-sky-950/20 dark:via-card/80 dark:to-indigo-950/20 shadow-sm shadow-slate-200/50 dark:shadow-none p-4 sm:p-5 relative overflow-hidden h-full">
       {/* Background accents */}
-      <div className="absolute -top-20 -right-20 w-48 h-48 rounded-full blur-[80px] opacity-20 pointer-events-none"
-        style={{ background: "linear-gradient(135deg, #38bdf8, #6366f1)" }} />
-      <div className="absolute -bottom-16 -left-16 w-32 h-32 rounded-full blur-[60px] opacity-10 pointer-events-none"
-        style={{ background: "linear-gradient(135deg, #6366f1, #ec4899)" }} />
+      <div className="absolute -top-20 -right-20 w-48 h-48 rounded-full blur-[80px] opacity-10 dark:opacity-20 pointer-events-none"
+        style={{ background: "linear-gradient(135deg, #e0f2fe, #bae6fd)" }} />
+      <div className="absolute -bottom-16 -left-16 w-32 h-32 rounded-full blur-[60px] opacity-10 dark:opacity-10 pointer-events-none"
+        style={{ background: "linear-gradient(135deg, #dbeafe, #bfdbfe)" }} />
 
       <div className="relative z-10 flex flex-col h-full justify-between">
         <div>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-gradient-to-br from-sky-500/20 to-indigo-500/20 border border-sky-500/10">
-                <Brain className="w-5 h-5 text-sky-400" />
+              <div className="p-2.5 rounded-xl bg-sky-100 border border-sky-200/50">
+                <Brain className="w-5 h-5 text-sky-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-sm">Orbit AI Summary</h3>
+                <h3 className="font-semibold text-sm text-sky-800">Orbit AI Summary</h3>
                 {refreshStats.lastRefreshedTime && (
-                  <p className="text-[10px] text-sky-500 dark:text-sky-400 font-medium mt-0.5 leading-none">
+                  <p className="text-[10px] text-sky-600/80 font-medium mt-0.5 leading-none">
                     (Updated: {refreshStats.lastRefreshedTime})
                   </p>
                 )}
@@ -243,7 +243,7 @@ Respond in this EXACT JSON format:
                     <span>Refresh</span>
                   )}
                 </button>
-                <div className="flex flex-col items-end text-[9px] text-slate-500 dark:text-slate-300 font-medium leading-none">
+                <div className="flex flex-col items-end text-[9px] text-slate-600 dark:text-slate-400 font-medium leading-none">
                   <span>{clicksLeft} left today</span>
                 </div>
               </div>
@@ -282,7 +282,7 @@ Respond in this EXACT JSON format:
                       className="space-y-4"
                     >
                       {/* Editorial Briefing Segment */}
-                      <p className="text-sm text-foreground/90 leading-relaxed font-medium pl-3 border-l-2 border-sky-400 dark:border-sky-500">
+                      <p className="text-sm !text-slate-900 dark:text-slate-200 leading-relaxed font-medium pl-3 border-l-2 border-slate-400 dark:border-slate-500">
                         {activeSummary.summary}
                       </p>
 
@@ -297,7 +297,7 @@ Respond in this EXACT JSON format:
                             </div>
                             <ul className="space-y-1.5">
                               {activeSummary.alerts.map((a, i) => (
-                                <li key={i} className="text-xs text-slate-700 dark:text-slate-200 font-medium flex items-start gap-2">
+                                <li key={i} className="text-xs !text-black dark:text-slate-200 font-medium flex items-start gap-2">
                                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
                                   <span className="leading-tight">{a}</span>
                                 </li>
@@ -315,7 +315,7 @@ Respond in this EXACT JSON format:
                             </div>
                             <ul className="space-y-1.5">
                               {activeSummary.tips.map((t, i) => (
-                                <li key={i} className="text-xs text-slate-700 dark:text-slate-200 font-medium flex items-start gap-2">
+                                <li key={i} className="text-xs !text-black dark:text-slate-200 font-medium flex items-start gap-2">
                                   <span className="w-1.5 h-1.5 rounded-full bg-sky-500 mt-1.5 shrink-0" />
                                   <span className="leading-tight">{t}</span>
                                 </li>

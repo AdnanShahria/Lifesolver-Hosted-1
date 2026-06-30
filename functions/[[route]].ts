@@ -21,10 +21,43 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   if (path.startsWith('/@') || path.startsWith('/node_modules/') || path.startsWith('/src/')) {
     return context.next();
   }
+  // 3. Handle CORS pre-flight requests and API routing
+  if (path.startsWith('/api') && context.request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Max-Age': '86400',
+      }
+    });
+  }
 
-  // 3. Forward all /api routes to the API core
   if (path.startsWith('/api')) {
-    return handleApiRequest(context);
+    const response = await handleApiRequest(context);
+    const corsHeaders = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    };
+    
+    try {
+      for (const [key, val] of Object.entries(corsHeaders)) {
+        response.headers.set(key, val);
+      }
+      return response;
+    } catch (e) {
+      const headers = new Headers(response.headers);
+      for (const [key, val] of Object.entries(corsHeaders)) {
+        headers.set(key, val);
+      }
+      return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers
+      });
+    }
   }
 
   // 4. Default: pass to Pages static asset server (which handles our HTML shells via _redirects)

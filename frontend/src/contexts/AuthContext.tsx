@@ -39,7 +39,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         try { return stored ? JSON.parse(stored) : null; } catch { return null; }
     });
     const [token, setToken] = useState<string | null>(() => localStorage.getItem(TOKEN_KEY));
-    const [isLoading, setIsLoading] = useState(false);
+    // isLoading is always false — we trust localStorage immediately, no blocking network call
+    const [isLoading] = useState(false);
 
     // Helper to persist auth state
     const persistAuth = useCallback((userData: User, jwt: string) => {
@@ -57,41 +58,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem("lifeos-user");
     }, []);
 
-    // On mount: verify stored JWT via /api/auth/me
+    // On mount: silently re-validate the stored token in the background.
+    // We do NOT block rendering on this — the cached user from localStorage
+    // is trusted immediately. This only clears auth if the token is truly revoked (401).
     useEffect(() => {
         const storedToken = localStorage.getItem(TOKEN_KEY);
         if (!storedToken) {
-            // Migrate: if there's a legacy user but no token, clear it
+            // No token → clear any stale cached user
             localStorage.removeItem("lifeos-user");
-            setIsLoading(false);
             return;
         }
 
         // Build the /me URL from the auth API URL
         const meUrl = API_URL.replace(/\/auth$/, "/auth/me");
 
+        // Fire-and-forget background validation — never await, never blocks UI
         fetch(meUrl, {
             method: "GET",
             headers: { Authorization: `Bearer ${storedToken}` },
         })
             .then(async (res) => {
                 if (res.status === 401) {
+                    // Token has been revoked server-side — force logout
                     clearAuth();
                     return;
                 }
-                if (!res.ok) throw new Error("Server error");
+                if (!res.ok) return; // Non-critical server error, keep session alive
                 const data = await res.json();
                 if (data.success && data.user) {
+                    // Refresh user data in case name/email changed
                     setUser(data.user);
                     setToken(storedToken);
                     localStorage.setItem("lifeos-user", JSON.stringify(data.user));
                 }
             })
-            .catch((err) => {
-                console.warn("Could not verify session with server, keeping local session active.", err);
-            })
-            .finally(() => {
-                setIsLoading(false);
+            .catch(() => {
+                // Network error — silently keep local session alive
             });
     }, [clearAuth]);
 

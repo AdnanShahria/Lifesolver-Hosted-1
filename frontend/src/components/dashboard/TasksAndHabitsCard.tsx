@@ -47,18 +47,18 @@ export function TasksAndHabitsCard({
     <>
       {/* ── Recent Tasks ── */}
       <motion.div className="h-full" variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}>
-        <div className="rounded-2xl border-2 border-blue-200 dark:border-blue-500/20 bg-gradient-to-br from-blue-50/80 via-card/80 to-sky-50/80 dark:from-blue-950/80 dark:via-card/80 dark:to-sky-950/80 backdrop-blur-sm p-4 sm:p-5 h-full relative overflow-hidden">
+        <div className="rounded-2xl border border-blue-100 dark:border-blue-500/20 bg-white/80 dark:bg-card/80 bg-gradient-to-br from-blue-50/80 via-white/50 to-white/0 dark:from-blue-950/50 dark:via-card/80 dark:to-transparent backdrop-blur-md p-4 sm:p-5 h-full relative overflow-hidden shadow-sm shadow-blue-500/5 dark:shadow-none">
           {/* Glow */}
           <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-blue-500 opacity-[0.06] blur-3xl" />
 
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-blue-500/15 shadow-sm shadow-blue-500/10">
+                <div className="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 shadow-sm">
                   <ListTodo className="w-4 h-4 text-blue-500" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm">Recent Tasks</h3>
+                  <h3 className="font-bold text-sm text-foreground">Recent Tasks</h3>
                   <p className="text-[10px] text-muted-foreground">{completedTasks.length} done · {pendingTasks.length} pending</p>
                 </div>
               </div>
@@ -132,18 +132,18 @@ export function TasksAndHabitsCard({
 
       {/* ── Habits ── */}
       <motion.div className="h-full" variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}>
-        <div className="rounded-2xl border-2 border-orange-200 dark:border-orange-500/20 bg-gradient-to-br from-orange-50/80 via-card/80 to-amber-50/80 dark:from-orange-950/80 dark:via-card/80 dark:to-amber-950/80 backdrop-blur-sm p-4 sm:p-5 h-full relative overflow-hidden">
+        <div className="rounded-2xl border border-orange-100 dark:border-orange-500/20 bg-white/80 dark:bg-card/80 bg-gradient-to-br from-orange-50/80 via-white/50 to-white/0 dark:from-orange-950/50 dark:via-card/80 dark:to-transparent backdrop-blur-md p-4 sm:p-5 h-full relative overflow-hidden shadow-sm shadow-orange-500/5 dark:shadow-none">
           {/* Glow */}
           <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-orange-500 opacity-[0.06] blur-3xl" />
 
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-orange-500/15 shadow-sm shadow-orange-500/10">
+                <div className="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 shadow-sm">
                   <Flame className="w-4 h-4 text-orange-500" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm">Habits</h3>
+                  <h3 className="font-bold text-sm text-foreground">Habits</h3>
                   <p className="text-[10px] text-muted-foreground">{habitsCompletedToday}/{allHabits.length} completed · 🔥 Best: {bestStreak}</p>
                 </div>
               </div>

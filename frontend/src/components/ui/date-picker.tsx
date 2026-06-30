@@ -107,9 +107,11 @@ export function DatePicker({ value, onChange, placeholder = "Select date", class
                     <Calendar className="w-4 h-4 text-muted-foreground" />
                 </button>
 
-                {/* Dropdown Calendar - Opens CENTERED */}
+                {/* Dropdown Calendar - Bottom sheet on mobile, Centered on desktop */}
                 {isOpen && (
-                    <div className="fixed z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-lg border bg-popover shadow-lg min-w-[280px]">
+                    <div className="fixed z-50 left-0 right-0 bottom-0 sm:left-1/2 sm:right-auto sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:bottom-auto p-5 sm:p-4 rounded-t-3xl sm:rounded-2xl border-t sm:border border-border bg-card shadow-2xl sm:min-w-[320px] animate-in slide-in-from-bottom-4 sm:slide-in-from-bottom-0 sm:zoom-in-95 duration-300">
+                        {/* Mobile handle */}
+                        <div className="w-12 h-1.5 bg-secondary rounded-full mx-auto mb-4 sm:hidden" />
                         {/* Month/Year Navigation */}
                         <div className="flex items-center justify-between mb-3">
                             <Button variant="ghost" size="icon" onClick={prevMonth} className="h-7 w-7">

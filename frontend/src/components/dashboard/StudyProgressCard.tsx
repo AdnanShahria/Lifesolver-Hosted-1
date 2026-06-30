@@ -27,16 +27,16 @@ export function StudyProgressCard({
   }, []);
 
   return (
-    <div className="rounded-2xl border-2 border-violet-200 dark:border-violet-500/20 bg-gradient-to-br from-violet-50/80 via-card/80 to-purple-50/80 dark:from-violet-950/80 dark:via-card/80 dark:to-purple-950/80 backdrop-blur-sm p-4 sm:p-5 relative overflow-hidden h-full">
+    <div className="rounded-2xl border border-violet-100 dark:border-violet-500/20 bg-white/80 dark:bg-card/80 bg-gradient-to-br from-violet-50/80 via-white/50 to-white/0 dark:from-violet-950/50 dark:via-card/80 dark:to-transparent backdrop-blur-md p-4 sm:p-5 relative overflow-hidden h-full shadow-sm shadow-violet-500/5 dark:shadow-none">
       <div className="absolute -bottom-8 -right-8 w-28 h-28 rounded-full bg-violet-500 opacity-[0.05] blur-3xl pointer-events-none" />
 
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-xl bg-violet-500/15 shadow-sm shadow-violet-500/10">
+            <div className="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 shadow-sm">
               <GraduationCap className="w-4 h-4 text-violet-500" />
             </div>
-            <h3 className="font-semibold text-sm">Study Progress</h3>
+            <h3 className="font-bold text-sm text-foreground">Study Progress</h3>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-lg font-bold text-violet-500">{studyProgress}%</span>

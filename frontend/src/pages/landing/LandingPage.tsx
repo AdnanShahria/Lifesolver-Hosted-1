@@ -94,7 +94,7 @@ const ExpandButton = ({ isExpanded, onClick, isMobile }: { isExpanded: boolean, 
 
 const Index = () => {
   const { theme } = useTheme();
-  const { user, isLoading: isUserLoading } = useAuth();
+  const { user } = useAuth();
 
   // Mobile check and expand state
   const [isMobile, setIsMobile] = useState(false);
@@ -134,12 +134,12 @@ const Index = () => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
-  const { balance: rawBalance, totalIncome: rawTotalIncome, totalExpenses: rawTotalExpenses, expensesByCategory: rawExpensesByCategory, regularEntries: rawRegularEntries, isLoading: isFinancesLoading } = useFinance();
+  const { balance: rawBalance, totalIncome: rawTotalIncome, totalExpenses: rawTotalExpenses, expensesByCategory: rawExpensesByCategory, regularEntries: rawRegularEntries } = useFinance();
   const { totalSavings: rawTotalSavings, budgetRemaining: rawBudgetRemaining, primaryBudget: rawPrimaryBudget, savingsGoals: rawSavingsGoals } = useBudget();
-  const { tasks: rawTasks, isLoading: isTasksLoading } = useTasks();
-  const { habits: rawHabits, isLoading: isHabitsLoading } = useHabits();
-  const { chapters: rawChapters, subjects: rawSubjects, subjectProgress: rawSubjectProgress, chapterProgress: rawChapterProgress, isLoading: isStudyLoading } = useStudy();
-  const { notes: rawNotes, isLoading: isNotesLoading } = useNotes();
+  const { tasks: rawTasks } = useTasks();
+  const { habits: rawHabits } = useHabits();
+  const { chapters: rawChapters, subjects: rawSubjects, subjectProgress: rawSubjectProgress, chapterProgress: rawChapterProgress } = useStudy();
+  const { notes: rawNotes } = useNotes();
 
   const isDev = import.meta.env.DEV;
   const todayStr = new Date().toISOString().split("T")[0];
@@ -470,16 +470,6 @@ Respond in this EXACT JSON format:
     },
   ];
 
-  if (isTasksLoading || isHabitsLoading || isFinancesLoading || isStudyLoading || isNotesLoading || isUserLoading) {
-    return (
-      <AppLayout>
-        <div className="flex items-center justify-center h-full min-h-[50vh]">
-          <p className="text-muted-foreground">Loading dashboard data...</p>
-        </div>
-      </AppLayout>
-    );
-  }
-
   return (
     <AppLayout className="!pt-6 sm:!pt-8 md:pt-6">
       <SEO title="Dashboard" description="Overview of your tasks, finance, habits, and study progress." />
@@ -514,13 +504,13 @@ Respond in this EXACT JSON format:
           </div>
 
           {/* Desktop Header */}
-          <div className="hidden md:block">
-            <div className="rounded-2xl border-2 border-primary/10 bg-card/80 bg-gradient-to-br from-primary/15 via-card/80 to-transparent backdrop-blur-sm p-6 sm:p-8 relative overflow-hidden shadow-sm">
+          <div className="hidden md:flex flex-col lg:flex-row items-stretch gap-4">
+            <div className="flex-1 rounded-2xl border-2 border-primary/10 bg-card/80 bg-gradient-to-br from-primary/15 via-card/80 to-transparent backdrop-blur-sm p-6 sm:p-8 relative overflow-hidden shadow-sm">
               {/* Background Pattern */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
               <div className="absolute bottom-0 left-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl -ml-12 -mb-12 pointer-events-none"></div>
 
-              <div className="relative z-10 flex flex-col justify-center">
+              <div className="relative z-10 flex flex-col justify-center h-full">
                 <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2 font-medium">
                   <CalendarDays className="w-4 h-4 text-primary/70" />
                   <span>{today}</span>
@@ -530,6 +520,19 @@ Respond in this EXACT JSON format:
                 </h1>
                 <p className="text-muted-foreground text-sm">{aiSummary?.summary ? aiSummary.summary : "Here's your daily snapshot"}</p>
               </div>
+            </div>
+
+            {/* Compact Activity Overview for lg view (laptop view) */}
+            <div className="hidden lg:block w-[360px] xl:w-[420px] shrink-0">
+              <ActivityOverviewCard 
+                compact={true}
+                completedTasks={completedTasks}
+                allTasks={allTasks}
+                habitsCompletedToday={habitsCompletedToday}
+                allHabits={allHabits}
+                studyProgress={studyProgress}
+                notes={notes || []}
+              />
             </div>
           </div>
         </motion.div>
@@ -607,7 +610,7 @@ Respond in this EXACT JSON format:
         </motion.div>
 
         {/* ===== ACTIVITY OVERVIEW (Moved inside grid for mobile ordering) ===== */}
-        <motion.div variants={fadeUp} className="lg:col-span-12 order-2 lg:order-3">
+        <motion.div variants={fadeUp} className="lg:hidden col-span-1 lg:col-span-12 order-2 lg:order-3">
           <ActivityOverviewCard 
             completedTasks={completedTasks}
             allTasks={allTasks}

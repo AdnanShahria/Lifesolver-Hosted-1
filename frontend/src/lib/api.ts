@@ -3,7 +3,19 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
     const token = localStorage.getItem("lifeos-token");
     
     // Auto-detect if we need to remove /api from path provided since backend is mapped to /api
-    const urlPath = path.startsWith('/api') ? path : `/api${path.startsWith('/') ? path : `/${path}`}`;
+    const relativePath = path.startsWith('/api') ? path : `/api${path.startsWith('/') ? path : `/${path}`}`;
+
+    // Support Capacitor by prepending VITE_BACKEND_URL if it is an absolute URL
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
+    const isCapacitor = window.location.origin.startsWith("capacitor:") || 
+                        window.location.origin.startsWith("file:") ||
+                        (window.location.origin.startsWith("http://localhost") && !window.location.port);
+    
+    const base = backendUrl.startsWith("http") && (isCapacitor || !window.location.origin.includes("localhost")) 
+        ? backendUrl.replace(/\/$/, "") 
+        : "";
+    
+    const urlPath = `${base}${relativePath}`;
     
     const isFormData = options.body instanceof FormData;
     

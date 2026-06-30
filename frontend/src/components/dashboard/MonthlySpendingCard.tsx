@@ -28,19 +28,19 @@ export function MonthlySpendingCard({
   }, []);
 
   return (
-    <div className="rounded-2xl border-2 border-violet-200 dark:border-violet-500/20 bg-gradient-to-br from-violet-50/80 via-card/80 to-fuchsia-50/80 dark:from-violet-950/80 dark:via-card/80 dark:to-fuchsia-950/80 backdrop-blur-sm p-4 sm:p-5 h-full relative overflow-hidden">
+    <div className="rounded-2xl border border-slate-200/80 dark:border-violet-500/10 bg-white/80 dark:bg-card/80 backdrop-blur-xl dark:bg-gradient-to-br dark:from-violet-950/20 dark:via-card/80 dark:to-fuchsia-950/20 shadow-sm shadow-slate-200/50 dark:shadow-none p-4 sm:p-5 h-full relative overflow-hidden">
       {/* Glow orb */}
-      <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-violet-500 opacity-[0.06] blur-3xl" />
+      <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-violet-400 opacity-[0.06] dark:opacity-[0.06] blur-3xl" />
 
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-xl bg-violet-500/15 shadow-sm shadow-violet-500/10">
-              <BarChart3 className="w-4 h-4 text-violet-500" />
+            <div className="p-2 rounded-xl bg-fuchsia-100 shadow-sm border border-fuchsia-200/50">
+              <BarChart3 className="w-4 h-4 text-fuchsia-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-sm">Monthly Spending</h3>
-              <p className="text-[10px] text-muted-foreground">This month's overview</p>
+              <h3 className="font-semibold text-sm text-fuchsia-700">Monthly Spending</h3>
+              <p className="text-[10px] text-fuchsia-600/80">This month's overview</p>
             </div>
           </div>
           {isMobile && (
@@ -64,7 +64,7 @@ export function MonthlySpendingCard({
             >
               {/* Hero amount */}
               <div className="flex items-baseline gap-2 mb-1">
-                <span className="text-2xl font-bold text-violet-600 dark:text-violet-400">৳{thisMonthTotal.toLocaleString()}</span>
+                <span className="text-2xl font-bold text-fuchsia-800">৳{thisMonthTotal.toLocaleString()}</span>
                 {expenseTrend !== 0 && (
                   <Badge className={`text-[9px] rounded-full px-2 h-5 font-semibold ${expenseTrend > 0
                     ? "bg-red-500/10 text-red-500 border-red-300/30 dark:border-red-500/20 hover:bg-red-500/15"
@@ -92,8 +92,8 @@ export function MonthlySpendingCard({
                   </ResponsiveContainer>
                   {/* Center label */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                    <span className="text-[10px] text-muted-foreground/60">Total</span>
-                    <span className="text-sm font-bold text-violet-600 dark:text-violet-400">৳{thisMonthTotal.toLocaleString()}</span>
+                    <span className="text-[10px] text-fuchsia-600">Total</span>
+                    <span className="text-sm font-bold text-fuchsia-800">৳{thisMonthTotal.toLocaleString()}</span>
                   </div>
                 </div>
               ) : (
@@ -114,11 +114,11 @@ export function MonthlySpendingCard({
                       <div className="flex items-center justify-between mb-1">
                         <div className="flex items-center gap-2">
                           <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: cat.color }} />
-                          <span className="text-xs font-medium">{cat.name}</span>
+                          <span className="text-xs font-medium text-slate-800">{cat.name}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] text-muted-foreground">{pct}%</span>
-                          <span className="text-xs font-bold">৳{cat.value.toLocaleString()}</span>
+                          <span className="text-[10px] text-slate-500 font-semibold">{pct}%</span>
+                          <span className="text-xs font-bold text-slate-800">৳{cat.value.toLocaleString()}</span>
                         </div>
                       </div>
                       <div className="h-1.5 rounded-full bg-violet-100/40 dark:bg-violet-900/20 overflow-hidden">
