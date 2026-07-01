@@ -43,8 +43,8 @@ function parseRows(result: any) {
 }
 
 class TursoD1PreparedStatement {
-  private sql: string;
-  private args: any[];
+  public sql: string;
+  public args: any[];
   private url: string;
   private token: string;
 
@@ -124,6 +124,58 @@ export class TursoD1Database {
 
   prepare(sql: string) {
     return new TursoD1PreparedStatement(sql, this.url, this.token);
+  }
+
+  async batch(statements: TursoD1PreparedStatement[]) {
+    if (statements.length === 0) return [];
+
+    const httpUrl = this.url.replace(/^libsql:\/\//, 'https://');
+    const pipelineUrl = `${httpUrl}/v2/pipeline`;
+
+    const requests: any[] = statements.map(stmt => ({
+      type: 'execute',
+      stmt: {
+        sql: stmt.sql,
+        args: stmt.args.map(mapValue)
+      }
+    }));
+
+    requests.push({
+      type: 'close'
+    });
+
+    const response = await fetch(pipelineUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ requests })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Turso D1 Shim batch error: HTTP ${response.status}: ${errText}`);
+    }
+
+    const data = (await response.json()) as any;
+    
+    return statements.map((stmt, index) => {
+      const res = data.results?.[index];
+      if (!res) {
+        throw new Error(`Turso D1 Shim batch error: Missing result for statement ${index}`);
+      }
+      if (res.type === 'error') {
+        throw new Error(`Turso SQL error on batch index ${index}: ${res.error?.message}`);
+      }
+      const resultObj = res.response?.result;
+      const parsed = parseRows(resultObj);
+      return {
+        results: parsed,
+        success: true,
+        meta: { duration: 0 }
+      };
+    });
   }
 }
 

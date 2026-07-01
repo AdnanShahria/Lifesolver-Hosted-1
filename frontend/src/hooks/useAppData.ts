@@ -29,7 +29,22 @@ export function useAppData() {
         queryKey: ["appData", userId],
         queryFn: async () => {
             if (!userId) throw new Error("Not authenticated");
-            return await apiFetch("/data/all");
+            const d = await apiFetch("/data/all");
+            
+            // Populate caches immediately to avoid race conditions with enabled queries
+            queryClient.setQueryData(["tasks", userId], d.tasks);
+            queryClient.setQueryData(["finance", userId], d.finance);
+            queryClient.setQueryData(["budgets", userId], d.budgets);
+            queryClient.setQueryData(["savings_transactions", userId], d.savings_transactions);
+            queryClient.setQueryData(["habits", userId], d.habits);
+            queryClient.setQueryData(["notes", userId], d.notes);
+            queryClient.setQueryData(["inventory", userId], d.inventory);
+            queryClient.setQueryData(["study_subjects", userId], d.study_subjects);
+            queryClient.setQueryData(["study_chapters", userId], d.study_chapters_v2);
+            queryClient.setQueryData(["study_parts", userId], d.study_parts);
+            queryClient.setQueryData(["study_common_presets", userId], d.study_common_presets);
+            
+            return d;
         },
         enabled: !!userId,
         staleTime: 1000 * 60 * 2,  // Data is fresh for 2 minutes — reduces unnecessary re-fetches on page switches

@@ -9,23 +9,28 @@ export async function handleDataRoute(context: PagesFunctionContext<Env>): Promi
     const userId = "mock_user_id";
     
     try {
+      const tablesWithCreatedAt = [
+        "tasks", "budgets", "savings_transactions", "notes",
+        "study_subjects", "study_chapters_v2", "study_parts", "study_common_presets"
+      ];
       const tables = [
         "tasks", "finance", "budgets", "savings_transactions", "habits", "notes",
         "inventory", "study_subjects", "study_chapters_v2", "study_parts", "study_common_presets"
       ];
       
-      const results: any = {};
+      const statements = tables.map(table => {
+        const query = tablesWithCreatedAt.includes(table)
+          ? `SELECT * FROM ${table} WHERE user_id = ? ORDER BY created_at DESC`
+          : `SELECT * FROM ${table} WHERE user_id = ?`;
+        return context.env.DB.prepare(query).bind(userId);
+      });
+
+      const batchResults = await context.env.DB.batch(statements);
       
-      for (const table of tables) {
-        let res;
-        try {
-          res = await context.env.DB.prepare(`SELECT * FROM ${table} WHERE user_id = ? ORDER BY created_at DESC`).bind(userId).all();
-        } catch(e) {
-          // Fallback if no created_at column
-          res = await context.env.DB.prepare(`SELECT * FROM ${table} WHERE user_id = ?`).bind(userId).all();
-        }
-        results[table] = res.results;
-      }
+      const results: any = {};
+      tables.forEach((table, idx) => {
+        results[table] = batchResults[idx].results;
+      });
       
       return jsonResponse(results);
     } catch (error: any) {

@@ -48,7 +48,7 @@ createRoot(document.getElementById("root")!).render(
                     <AuthProvider>
                         <Toaster />
                         <Sonner theme="system" />
-                        <BrowserRouter basename="/auth" future={{ v7_relativeSplatPath: true }}>
+                        <BrowserRouter basename="/auth" future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
                             <AuthShell />
                         </BrowserRouter>
                     </AuthProvider>
