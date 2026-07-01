@@ -2,7 +2,10 @@
 
 import { ChatMessage, AIIntent } from './types';
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL ? import.meta.env.VITE_BACKEND_URL.replace('/api/auth', '/api/ai/enhance') : "/api/ai/enhance";
+const _envUrl = import.meta.env.VITE_BACKEND_URL || "";
+const BASE_URL = (_envUrl.includes("localhost") && import.meta.env.PROD) 
+    ? "/api/ai/enhance" 
+    : (_envUrl ? _envUrl.replace('/api/auth', '/api/ai/enhance') : "/api/ai/enhance");
 
 export async function callGroqAPI(
     messages: ChatMessage[],

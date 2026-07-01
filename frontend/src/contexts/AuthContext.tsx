@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
-const API_URL = import.meta.env.VITE_BACKEND_URL || "/api/auth";
+const _envUrl = import.meta.env.VITE_BACKEND_URL || "";
+const API_URL = (_envUrl.includes("localhost") && import.meta.env.PROD) ? "/api/auth" : (_envUrl || "/api/auth");
 
 const TOKEN_KEY = "lifeos-token";
 

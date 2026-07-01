@@ -6,11 +6,15 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
     const relativePath = path.startsWith('/api') ? path : `/api${path.startsWith('/') ? path : `/${path}`}`;
 
     // Support Capacitor by prepending VITE_BACKEND_URL if it is an absolute URL
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
+    let backendUrl = import.meta.env.VITE_BACKEND_URL || "";
     const isCapacitor = window.location.origin.startsWith("capacitor:") || 
                         window.location.origin.startsWith("file:") ||
                         (window.location.origin.startsWith("http://localhost") && !window.location.port);
     
+    if (backendUrl.includes("localhost") && import.meta.env.PROD && !isCapacitor) {
+        backendUrl = ""; // Ignore misconfigured localhost URL in web production
+    }
+
     const base = backendUrl.startsWith("http") && (isCapacitor || !window.location.origin.includes("localhost")) 
         ? backendUrl.replace(/\/$/, "") 
         : "";
